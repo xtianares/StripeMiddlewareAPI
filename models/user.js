@@ -43,6 +43,13 @@ userSchema.index({
   unique: true,
 });
 
+// to prevent returning the user's password
+userSchema.methods.toJSON = function () {
+  var obj = this.toObject();
+  delete obj.password;
+  return obj;
+}
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;

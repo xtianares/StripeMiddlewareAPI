@@ -12,7 +12,6 @@ module.exports = {
   findAll: function(req, res) {
     db.User
       .find(req.query)
-      // .populate("inProgressHunts")
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -20,6 +19,8 @@ module.exports = {
     db.User
       .findById(req.params.id)
       .populate("orders")
+      .populate("assessments")
+      .populate("results")
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
