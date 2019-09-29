@@ -2,6 +2,13 @@ const db = require("../models");
 
 // Defining methods for the userController
 module.exports = {
+  create: function (req, res) {
+    // console.log(req.body);
+    db.User
+      .create(req.body)
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   findAll: function(req, res) {
     db.User
       .find(req.query)
@@ -12,27 +19,20 @@ module.exports = {
   findById: function(req, res) {
     db.User
       .findById(req.params.id)
+      .populate("orders")
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
-  },
-  create: function(req, res) {
-    // console.log(req.body);
-    db.User
-      .create(req.body)
-      .then(dbModel => res.json(dbModel))
-      // .catch(err => res.status(422).json(err));
-      .catch(err => res.json(err).status(422));
   },
   update: function(req, res) {
     db.User
-      .findOneAndUpdate({ _id: req.params.id }, req.body)
+      .findOneAndUpdate({ _id: req.params.id }, req.body, {new : true})
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  remove: function(req, res) {
+  delete: function(req, res) {
     db.User
       .findById({ _id: req.params.id })
-      .then(dbModel => dbModel.remove())
+      .then(dbModel => dbModel.deleteOne())
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   }
