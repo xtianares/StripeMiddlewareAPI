@@ -9,8 +9,8 @@ const userSchema = new Schema ({
   email: {
     type: String,
     trim: true,
-    unique: true,
     required: true,
+    unique: true,
     match: [/.+@.+\..+/, "Please enter a valid email address"]
   },
   address: { type: String, trim: true, required: true },
@@ -34,6 +34,13 @@ const userSchema = new Schema ({
   }],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
+});
+
+userSchema.index({
+  username: 1,
+  email: 1,
+}, {
+  unique: true,
 });
 
 const User = mongoose.model("User", userSchema);
