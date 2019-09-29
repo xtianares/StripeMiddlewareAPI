@@ -36,12 +36,13 @@ const userSchema = new Schema ({
   updatedAt: { type: Date, default: Date.now }
 });
 
-userSchema.index({
-  username: 1,
-  email: 1,
-}, {
-  unique: true,
-});
+// to make both username and email unique
+// userSchema.index({
+//   username: 1,
+//   email: 1,
+// }, {
+//   unique: true,
+// });
 
 // to prevent returning the user's password
 userSchema.methods.toJSON = function () {
