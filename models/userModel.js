@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
-const userSchema = new Schema ({
+const UserSchema = new Schema ({
   username: { type: String, trim: true, required: true, unique: true },
   password: { type: String, trim: true, required: true },
   firstName: { type: String, required: true },
@@ -10,7 +12,7 @@ const userSchema = new Schema ({
     type: String,
     trim: true,
     required: true,
-    unique: true,
+    // unique: true,
     match: [/.+@.+\..+/, "Please enter a valid email address"]
   },
   address: { type: String, trim: true, required: true },
@@ -37,20 +39,35 @@ const userSchema = new Schema ({
 });
 
 // to make both username and email unique
-// userSchema.index({
+// UserSchema.index({
 //   username: 1,
 //   email: 1,
 // }, {
 //   unique: true,
 // });
 
-// to prevent returning the user's password
-userSchema.methods.toJSON = function () {
-  var obj = this.toObject();
-  delete obj.password;
-  return obj;
-}
+// hash user password before saving into database
+UserSchema.pre('save', function (next) {
+  this.password = bcrypt.hashSync(this.password, saltRounds);
+  next();
 
-const User = mongoose.model("User", userSchema);
+  // console.log(this.isNew || this.isModified('password'))
+  // if (this.isNew || this.isModified('password')) {
+  //   this.password = bcrypt.hashSync(this.password, saltRounds);
+  //   next();
+  // } else {
+  //   next();
+  // }
+
+});
+
+// // to prevent returning the user's password
+// UserSchema.methods.toJSON = function () {
+//   const obj = this.toObject();
+//   delete obj.password;
+//   return obj;
+// }
+
+const User = mongoose.model("User", UserSchema);
 
 module.exports = User;

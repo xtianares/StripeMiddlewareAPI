@@ -4,6 +4,8 @@ const routes = require("./routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+app.set('secretKey', 'nodeRestApi'); // jwt secret token
+
 // Define middleware here
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.json({limit: '50mb'}));

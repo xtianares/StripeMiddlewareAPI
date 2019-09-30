@@ -2,11 +2,18 @@ const db = require("../models");
 
 // Defining methods for the userController
 module.exports = {
-  create: function (req, res) {
+  create: function (req, res, next) {
     // console.log(req.body);
     db.User
       .create(req.body)
-      .then(dbModel => res.json(dbModel))
+      // .then(dbModel => res.json(dbModel))
+      .then(dbModel => {
+        res.json({
+          status: "success",
+          message: "User added successfully!!!",
+          data: dbModel
+        });
+      })
       .catch(err => res.status(422).json(err));
   },
   findAll: function(req, res) {
