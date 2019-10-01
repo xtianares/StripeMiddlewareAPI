@@ -15,6 +15,7 @@ const UserSchema = new Schema ({
     // unique: true,
     match: [/.+@.+\..+/, "Please enter a valid email address"]
   },
+  companyName: { type: String, trim: true, required: true },
   address: { type: String, trim: true, required: true },
   city: { type: String, trim: true, required: true },
   state: { type: String, trim: true, required: true },
@@ -50,15 +51,6 @@ const UserSchema = new Schema ({
 UserSchema.pre('save', function (next) {
   this.password = bcrypt.hashSync(this.password, saltRounds);
   next();
-
-  // console.log(this.isNew || this.isModified('password'))
-  // if (this.isNew || this.isModified('password')) {
-  //   this.password = bcrypt.hashSync(this.password, saltRounds);
-  //   next();
-  // } else {
-  //   next();
-  // }
-
 });
 
 // // to prevent returning the user's password
