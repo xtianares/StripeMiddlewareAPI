@@ -9,10 +9,11 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/AssuredApp");
 const usersSeed = [
   {
     username: "xtian",
+    password: "111111",
     firstName: "Christian",
     lastName: "Castanares",
     email: "xtian@test.com",
-    password: "111111",
+    phone: "111-111-1111",
     companyName: "Company 1",
     address: "123 Somewhere Over There",
     city: "Lake Mary",
@@ -22,10 +23,11 @@ const usersSeed = [
   },
   {
     username: "xtian2",
+    password: "111111",
     firstName: "Test",
     lastName: "Castanares",
     email: "xtian2@test.com",
-    password: "111111",
+    phone: "111-111-1111",
     companyName: "Company 2",
     address: "123 Somewhere Over There",
     city: "My City",
@@ -35,10 +37,11 @@ const usersSeed = [
   },
   {
     username: "xtian3",
+    password: "111111",
     firstName: "Test",
     lastName: "Castanares",
     email: "xtian3@test.com",
-    password: "111111",
+    phone: "111-111-1111",
     companyName: "Company 3",
     address: "123 Somewhere Over There",
     city: "My City",
@@ -48,11 +51,19 @@ const usersSeed = [
   }
 ];
 
+var model = mongoose.model;
+var createManyPeople = function (arrayOfPeople, done) {
+  model.create(arrayOfPeople, function (err, data) {
+    if (err) return done(err);
+    done(null, data);
+  })
+};
+
 db.User
   .deleteMany({})
-  .then(() => db.User.collection.insertMany(usersSeed))
+  .then(() => db.User.create(usersSeed))
   .then(data => {
-    console.log(data.result.n + " records inserted!");
+    console.log(Object.keys(data).length + " records inserted!");
     process.exit(0);
   })
   .catch(err => {
