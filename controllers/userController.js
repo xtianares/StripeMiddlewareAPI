@@ -42,6 +42,7 @@ module.exports = {
     if (req.body.password) {
       req.body.password = bcrypt.hashSync(req.body.password, saltRounds);
     }
+    req.body.updatedAt = Date.now(); // only needed for users to set the updatedAt key
     db.User
       .findOneAndUpdate({ _id: req.params.id }, req.body, {new : true})
       .then(dbModel => res.json(dbModel))
@@ -67,7 +68,7 @@ module.exports = {
           const token = jwt.sign({
             id: userInfo._id
           }, req.app.get('secretKey'), {
-            expiresIn: '24h'
+            expiresIn: '12h'
           });
           res.json({
             status: "success",

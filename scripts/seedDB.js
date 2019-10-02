@@ -1,10 +1,13 @@
+require('dotenv').config();
 const mongoose = require("mongoose");
 const db = require("../models");
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 // This file seed the Users collection with the users below
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useCreateIndex', true);
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/AssuredApp");
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_LOCAL_CONN_URL);
 
 const usersSeed = [
   {
@@ -51,13 +54,9 @@ const usersSeed = [
   }
 ];
 
-var model = mongoose.model;
-var createManyPeople = function (arrayOfPeople, done) {
-  model.create(arrayOfPeople, function (err, data) {
-    if (err) return done(err);
-    done(null, data);
-  })
-};
+usersSeed.forEach(user => {
+  user.password = bcrypt.hashSync(user.password, saltRounds);
+});
 
 db.User
   .deleteMany({})
