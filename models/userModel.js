@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
 
 const UserSchema = new Schema ({
   username: { type: String, trim: true, required: true, unique: true },
@@ -47,12 +45,6 @@ const UserSchema = new Schema ({
 // }, {
 //   unique: true,
 // });
-
-// hash user password before saving into database
-UserSchema.pre('save', function (next) {
-  this.password = bcrypt.hashSync(this.password, saltRounds);
-  next();
-});
 
 // // to prevent returning the user's password
 // UserSchema.methods.toJSON = function () {

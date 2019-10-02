@@ -7,6 +7,9 @@ const saltRounds = 10;
 module.exports = {
   create: (req, res) => {
     // console.log(req.body);
+    if (req.body.password) {
+      req.body.password = bcrypt.hashSync(req.body.password, saltRounds);
+    }
     db.User
       .create(req.body)
       // .then(dbModel => res.json(dbModel))
@@ -71,6 +74,7 @@ module.exports = {
             message: "User Found!!!",
             data: {
               user: userInfo,
+              auth: true,
               token: token
             }
           });
