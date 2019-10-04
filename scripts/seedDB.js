@@ -17,12 +17,16 @@ const usersSeed = [
     lastName: "Castanares",
     email: "xtian@test.com",
     phone: "111-111-1111",
-    companyName: "Company 1",
-    address: "123 Somewhere Over There",
-    city: "Lake Mary",
-    state: "Florida",
-    zipcode: "12345",
-    country: "US"
+    company: {
+      companyName: "Company 1",
+      address: "123 Somewhere Over There",
+      city: "Lake Mary",
+      state: "Florida",
+      zipcode: "12345",
+      country: "US",
+      companySize: "Startup",
+      coreBusinessArea: "Computer and IT Systems and Services"
+    }
   },
   {
     username: "xtian2",
@@ -31,12 +35,16 @@ const usersSeed = [
     lastName: "Castanares",
     email: "xtian2@test.com",
     phone: "111-111-1111",
-    companyName: "Company 2",
-    address: "123 Somewhere Over There",
-    city: "My City",
-    state: "Florida",
-    zipcode: "12345",
-    country: "US"
+    company: {
+      companyName: "Company 2",
+      address: "123 Somewhere Over There",
+      city: "Lake Mary",
+      state: "Florida",
+      zipcode: "12345",
+      country: "US",
+      companySize: "Small business within the top 50-75%",
+      coreBusinessArea: "Computer and IT Systems and Services"
+    }
   },
   {
     username: "xtian3",
@@ -45,13 +53,53 @@ const usersSeed = [
     lastName: "Castanares",
     email: "xtian3@test.com",
     phone: "111-111-1111",
-    companyName: "Company 3",
-    address: "123 Somewhere Over There",
-    city: "My City",
-    state: "Florida",
-    zipcode: "12345",
-    country: "US"
-  }
+    company: {
+      companyName: "Company 3",
+      address: "123 Somewhere Over There",
+      city: "Lake Mary",
+      state: "Florida",
+      zipcode: "12345",
+      country: "US",
+      companySize: "Medium business within the top 15-50%",
+      coreBusinessArea: "Computer and IT Systems and Services"
+    }
+  },
+  {
+    username: "xtian4",
+    password: "111111",
+    firstName: "Test",
+    lastName: "Castanares",
+    email: "xtian4@test.com",
+    phone: "111-111-1111",
+    company: {
+      companyName: "Company 4",
+      address: "123 Somewhere Over There",
+      city: "Lake Mary",
+      state: "Florida",
+      zipcode: "12345",
+      country: "US",
+      companySize: "Large business within the top 5-15%",
+      coreBusinessArea: "Computer and IT Systems and Services"
+    }
+  },
+  {
+    username: "xtian5",
+    password: "111111",
+    firstName: "Test",
+    lastName: "Castanares",
+    email: "xtian5@test.com",
+    phone: "111-111-1111",
+    company: {
+      companyName: "Company 5",
+      address: "123 Somewhere Over There",
+      city: "Lake Mary",
+      state: "Florida",
+      zipcode: "12345",
+      country: "US",
+      companySize: "Leader in the industry within the top 5%",
+      coreBusinessArea: "Computer and IT Systems and Services"
+    }
+  },
 ];
 
 usersSeed.forEach(user => {

@@ -68,11 +68,13 @@ module.exports = {
           const token = jwt.sign({
             id: userInfo._id
           }, req.app.get('secretKey'), {
-            expiresIn: '12h'
+            expiresIn: '12h',
+            issuer: "AssuredApp",
+            // audience: "5d96c3915b2e0730ed1fbd20"
           });
           res.json({
             status: "success",
-            message: "User Found!!!",
+            message: "User Found!!!", 
             data: {
               user: userInfo,
               auth: true,

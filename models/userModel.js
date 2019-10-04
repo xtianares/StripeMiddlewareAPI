@@ -16,26 +16,30 @@ const UserSchema = new Schema ({
     match: [/.+@.+\..+/, "Please enter a valid email address"]
   },
   phone: { type: String, trim: true, required: true },
-  companyName: { type: String, trim: true, required: true },
-  address: { type: String, trim: true, required: true },
-  city: { type: String, trim: true, required: true },
-  state: { type: String, trim: true, required: true },
-  zipcode: { type: String, trim: true, required: true },
-  country: { type: String, trim: true, required: true },
-  orders: [{
-    type: Schema.Types.ObjectId,
-    ref: "Order"
-  }],
-  // asssessments need to be referenced with the order?
-  assessments: [{
-    type: Schema.Types.ObjectId,
-    ref: "Assessment"
-  }],
-  // results need to be referenced with the order?
-  results: [{
-    type: Schema.Types.ObjectId,
-    ref: "Result"
-  }],
+  company: {
+    companyName: { type: String, trim: true, required: true },
+    companySize: { type: String, trim: true },
+    coreBusinessArea: { type: String, trim: true },
+    address: { type: String, trim: true },
+    city: { type: String, trim: true },
+    state: { type: String, trim: true },
+    zipcode: { type: String, trim: true },
+    country: { type: String, trim: true }
+  },
+  // orders: [{
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Order"
+  // }],
+  // // asssessments need to be referenced with the order?
+  // assessments: [{
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Assessment"
+  // }],
+  // // results need to be referenced with the order?
+  // results: [{
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Result"
+  // }],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
