@@ -5,18 +5,18 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 // This file seed the Users collection with the users below
-mongoose.set('useNewUrlParser', true);
+mongoose.set('useNewUrlParser', true); // fix for deprecation warning
+mongoose.set('useFindAndModify', false); // fix for deprecation warning
 mongoose.set('useCreateIndex', true);
 mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_LOCAL_CONN_URL);
 
 const usersSeed = [
   {
-    username: "xtian",
-    password: "111111",
     firstName: "Christian",
     lastName: "Castanares",
     email: "xtian@test.com",
     phone: "111-111-1111",
+    password: "111111",
     company: {
       companyName: "Company 1",
       address: "123 Somewhere Over There",
@@ -25,16 +25,15 @@ const usersSeed = [
       zipcode: "12345",
       country: "US",
       companySize: "Startup",
-      coreBusinessArea: "Computer and IT Systems and Services"
+      indsutry: "Computer and IT Systems and Services"
     }
   },
   {
-    username: "xtian2",
-    password: "111111",
     firstName: "Test",
     lastName: "Castanares",
     email: "xtian2@test.com",
     phone: "111-111-1111",
+    password: "111111",
     company: {
       companyName: "Company 2",
       address: "123 Somewhere Over There",
@@ -43,16 +42,15 @@ const usersSeed = [
       zipcode: "12345",
       country: "US",
       companySize: "Small business within the top 50-75%",
-      coreBusinessArea: "Computer and IT Systems and Services"
+      indsutry: "Computer and IT Systems and Services"
     }
   },
   {
-    username: "xtian3",
-    password: "111111",
     firstName: "Test",
     lastName: "Castanares",
     email: "xtian3@test.com",
     phone: "111-111-1111",
+    password: "111111",
     company: {
       companyName: "Company 3",
       address: "123 Somewhere Over There",
@@ -61,16 +59,15 @@ const usersSeed = [
       zipcode: "12345",
       country: "US",
       companySize: "Medium business within the top 15-50%",
-      coreBusinessArea: "Computer and IT Systems and Services"
+      indsutry: "Computer and IT Systems and Services"
     }
   },
   {
-    username: "xtian4",
-    password: "111111",
     firstName: "Test",
     lastName: "Castanares",
     email: "xtian4@test.com",
     phone: "111-111-1111",
+    password: "111111",
     company: {
       companyName: "Company 4",
       address: "123 Somewhere Over There",
@@ -79,16 +76,15 @@ const usersSeed = [
       zipcode: "12345",
       country: "US",
       companySize: "Large business within the top 5-15%",
-      coreBusinessArea: "Computer and IT Systems and Services"
+      indsutry: "Computer and IT Systems and Services"
     }
   },
   {
-    username: "xtian5",
-    password: "111111",
     firstName: "Test",
     lastName: "Castanares",
     email: "xtian5@test.com",
     phone: "111-111-1111",
+    password: "111111",
     company: {
       companyName: "Company 5",
       address: "123 Somewhere Over There",
@@ -97,7 +93,7 @@ const usersSeed = [
       zipcode: "12345",
       country: "US",
       companySize: "Leader in the industry within the top 5%",
-      coreBusinessArea: "Computer and IT Systems and Services"
+      indsutry: "Computer and IT Systems and Services"
     }
   },
 ];

@@ -59,7 +59,7 @@ module.exports = {
     // console.log(req.body);
     db.User
       .findOne({
-        username: req.body.username
+        email: req.body.email
       })
       .then(userInfo => {
         // console.log(req.body.password);
@@ -84,14 +84,14 @@ module.exports = {
         } else {
           res.json({
             status: "error",
-            message: "Invalid username/password!!!",
+            message: "Invalid email/password!!!",
             data: null
           });
         }
       })
       .catch(err => res.status(422).json({
         status: "error",
-        message: "Invalid username/password!!!",
+        message: "Invalid email/password!!!",
         data: null
       }));
   },

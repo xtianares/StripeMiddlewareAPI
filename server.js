@@ -20,7 +20,8 @@ if (process.env.NODE_ENV === "production") {
 app.use(routes);
 
 // Connect to the Mongo DB
-mongoose.set('useNewUrlParser', true);
+mongoose.set('useNewUrlParser', true); // fix for deprecation warning
+mongoose.set('useFindAndModify', false); // fix for deprecation warning
 mongoose.set('useCreateIndex', true);
 mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_LOCAL_CONN_URL);
 
