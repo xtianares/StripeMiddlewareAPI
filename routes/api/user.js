@@ -13,9 +13,13 @@ router.route("/all")
 router.route("/login")
   .get(userController.login);
 
-// logged in login
-router.route("/me/:id")
-  .get(auth.validateToken, userController.findById);
+// user logout, deletes cookies
+router.route("/logout")
+  .get(userController.logout);
+
+// find logged user info
+router.route("/me")
+  .get(auth.validateToken, userController.findMe);
 
 // find user by id, needs to be last
 router.route("/:id")

@@ -72,7 +72,8 @@ module.exports = {
             expiresIn: '12h',
             issuer: "AssuredApp",
           });
-          res.header('x-auth-header', token).cookie('auth', token, { expires: new Date(Date.now() + 900000), httpOnly: true, secure: true }).json({
+          const secureFlag = process.env.NODE_ENV !== "Development" ? true : false; // set false if in Development environment and true in Production environment
+          res.header('x-auth-header', token).cookie('userToken', token, { expires: new Date(Date.now() + 43200000), httpOnly: true, secure: secureFlag }).json({
             status: "success",
             message: "User Found!!!", 
             data: {
@@ -94,5 +95,17 @@ module.exports = {
         data: null
       }));
   },
+  findMe: (req, res) => {
+    // console.log(req.cookies);
+    db.User
+      .findById(req.decoded.id)
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+  logout: (req, res) => {
+    res.clearCookie("userToken");
+    res.send("User logout successfully!");
+  }
+
 
 };

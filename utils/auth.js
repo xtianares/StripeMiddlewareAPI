@@ -2,12 +2,15 @@ const jwt = require('jsonwebtoken');
 
 module.exports = {
   validateToken: (req, res, next) => {
-    const authorizationHeaader = req.headers.authorization;
+    // const authorizationHeaader = req.headers.authorization;
     // const token = req.header('x-auth-header');
     // console.log(authorizationHeaader);
+
+    // console.log(req.cookies);
+    const cookieToken = req.cookies.userToken;
     let result;
-    if (authorizationHeaader) {
-      const token = req.headers.authorization.split(' ')[1]; // Bearer <token>
+    if (cookieToken) {
+      const token = cookieToken;
       // console.log(token);
       const options = {
         expiresIn: '12h',
@@ -28,6 +31,8 @@ module.exports = {
         status: 401
       };
       res.status(401).send(result);
+      // user will need to be redirected to the login page
     }
-  }
+  },
+
 };
