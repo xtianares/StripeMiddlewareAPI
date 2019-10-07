@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const userController = require("../../controllers/userController");
-const verifyToken = require('../../utils/auth');
+const auth = require('../../utils/auth');
 
 // get all users
 router.route("/create")
@@ -15,7 +15,7 @@ router.route("/login")
 
 // logged in login
 router.route("/me/:id")
-  .get(verifyToken.validateToken, userController.findById)
+  .get(auth.validateToken, userController.findById);
 
 // find user by id, needs to be last
 router.route("/:id")

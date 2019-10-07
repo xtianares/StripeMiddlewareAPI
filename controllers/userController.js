@@ -66,18 +66,17 @@ module.exports = {
         // console.log(userInfo.password);
         if (bcrypt.compareSync(req.body.password, userInfo.password)) {
           const token = jwt.sign({
-            id: userInfo._id
+            id: userInfo._id,
+            role: userInfo.role
           }, req.app.get('secretKey'), {
             expiresIn: '12h',
             issuer: "AssuredApp",
-            // audience: "5d96c3915b2e0730ed1fbd20"
           });
-          res.json({
+          res.header('x-auth-header', token).cookie('auth', token, { expires: new Date(Date.now() + 900000), httpOnly: true, secure: true }).json({
             status: "success",
             message: "User Found!!!", 
             data: {
               user: userInfo,
-              auth: true,
               token: token
             }
           });

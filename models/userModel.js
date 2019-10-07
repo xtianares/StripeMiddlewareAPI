@@ -26,6 +26,7 @@ const UserSchema = new Schema ({
     zipcode: { type: String, trim: true },
     country: { type: String, trim: true }
   },
+  role: { type: String, trim: true, default: "customer" },
   // order are associated with the user
   orders: [{
     type: Schema.Types.ObjectId,

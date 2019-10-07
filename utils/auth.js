@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 module.exports = {
   validateToken: (req, res, next) => {
     const authorizationHeaader = req.headers.authorization;
+    // const token = req.header('x-auth-header');
     // console.log(authorizationHeaader);
     let result;
     if (authorizationHeaader) {
