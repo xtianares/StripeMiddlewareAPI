@@ -34,5 +34,7 @@ module.exports = {
       // user will need to be redirected to the login page
     }
   },
+  isAdmin: (req, res, next) => {
 
+  }
 };

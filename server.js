@@ -13,7 +13,7 @@ app.set('secretKey', process.env.JWT_SECRET); // jwt secret token from environme
 // Define middleware here
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.json({limit: '50mb'}));
-app.use(cookieParser())
+app.use(cookieParser());
 // app.use(cors()); // disabled for now until we need Jack's tool to be able to use the API
 app.disable('x-powered-by');
 

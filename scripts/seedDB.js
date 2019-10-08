@@ -96,6 +96,17 @@ const usersSeed = [
       indsutry: "Computer and IT Systems and Services"
     }
   },
+  {
+    firstName: "Admin",
+    lastName: "Test",
+    email: "admin@test.com",
+    phone: "111-111-1111",
+    password: "111111",
+    role: "admin",
+    company: {
+      companyName: "Assured Enterprises"
+    }
+  },
 ];
 
 usersSeed.forEach(user => {
