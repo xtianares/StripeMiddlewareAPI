@@ -1,13 +1,10 @@
 const router = require("express").Router();
 const userController = require("../../controllers/userController");
-const auth = require('../../utils/auth');
+const { isAuthenticated, isAuthorized } = require('../../utils/auth');
 
 // get all users
 router.route("/create")
   .post(userController.create);
-
-router.route("/all")
-  .get(userController.findAll);
 
 // user login
 router.route("/login")
@@ -17,14 +14,18 @@ router.route("/login")
 router.route("/logout")
   .get(userController.logout);
 
-// find logged user info
+// find logged in user info
 router.route("/me")
-  .get(auth.validateToken, userController.findMe);
+  .get(isAuthenticated, userController.findMe)
+  .put(isAuthenticated, userController.update);
+
+router.route("/all")
+  .get(isAuthenticated, isAuthorized, userController.findAll);
 
 // find user by id, needs to be last
 router.route("/:id")
-  .get(userController.findById)
-  .put(userController.update)
-  .delete(userController.delete);
+  .get(isAuthenticated, isAuthorized, userController.findById)
+  .put(isAuthenticated, isAuthorized, userController.update)
+  .delete(isAuthenticated, isAuthorized, userController.delete);
 
 module.exports = router;

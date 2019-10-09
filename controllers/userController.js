@@ -37,14 +37,21 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  // need to gate update properly, not all fields can be update
   update: (req, res) => {
     // make sure that passwords are hashed during updates
     if (req.body.password) {
       req.body.password = bcrypt.hashSync(req.body.password, saltRounds);
     }
     req.body.updatedAt = Date.now(); // only needed for users to set the updatedAt key
+    if (req.decoded.role !== "admin") {
+      delete req.body.email;
+      delete req.body.role;
+      delete req.body.orders;
+      delete req.body.assessments;
+    }
     db.User
-      .findOneAndUpdate({ _id: req.params.id }, req.body, {new : true})
+      .findOneAndUpdate({ _id: req.decoded.id }, req.body, {new : true})
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -105,7 +112,6 @@ module.exports = {
   logout: (req, res) => {
     res.clearCookie("userToken");
     res.send("User logout successfully!");
-  }
-
+  },
 
 };

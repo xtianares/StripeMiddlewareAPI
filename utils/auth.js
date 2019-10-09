@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = {
-  validateToken: (req, res, next) => {
+  isAuthenticated: (req, res, next) => {
     // const authorizationHeaader = req.headers.authorization;
     // const token = req.header('x-auth-header');
     // console.log(authorizationHeaader);
@@ -34,7 +34,17 @@ module.exports = {
       // user will need to be redirected to the login page
     }
   },
-  isAdmin: (req, res, next) => {
-
+  isAuthorized: (req, res, next) => {
+    // console.log(req.decoded);
+    if (req.decoded.role === "admin") {
+      console.log("Authorization Success...");
+      next();
+    } else {
+      result = {
+        error: "Authorization error. Permission Denied!",
+        status: 401
+      };
+      res.status(401).send(result);
+    }
   }
 };
