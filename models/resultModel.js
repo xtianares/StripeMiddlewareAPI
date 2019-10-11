@@ -10,9 +10,9 @@ const resultSchema = new Schema ({
     type: Schema.Types.ObjectId,
     ref: "Order"
   },
-  assessment: {
+  product: {
     type: Schema.Types.ObjectId,
-    ref: "Assessment"
+    ref: "Product"
   }
 }, { timestamps: true });
 

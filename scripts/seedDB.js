@@ -17,6 +17,7 @@ const usersSeed = [
     email: "xtian@test.com",
     phone: "111-111-1111",
     password: "111111",
+    role: "customer",
     company: {
       companyName: "Company 1",
       address: "123 Somewhere Over There",
@@ -34,6 +35,7 @@ const usersSeed = [
     email: "xtian2@test.com",
     phone: "111-111-1111",
     password: "111111",
+    role: "customer",
     company: {
       companyName: "Company 2",
       address: "123 Somewhere Over There",
@@ -51,6 +53,7 @@ const usersSeed = [
     email: "xtian3@test.com",
     phone: "111-111-1111",
     password: "111111",
+    role: "customer",
     company: {
       companyName: "Company 3",
       address: "123 Somewhere Over There",
@@ -68,6 +71,7 @@ const usersSeed = [
     email: "xtian4@test.com",
     phone: "111-111-1111",
     password: "111111",
+    role: "customer",
     company: {
       companyName: "Company 4",
       address: "123 Somewhere Over There",
@@ -85,6 +89,7 @@ const usersSeed = [
     email: "xtian5@test.com",
     phone: "111-111-1111",
     password: "111111",
+    role: "customer",
     company: {
       companyName: "Company 5",
       address: "123 Somewhere Over There",
@@ -116,6 +121,40 @@ usersSeed.forEach(user => {
 db.User
   .deleteMany({})
   .then(() => db.User.create(usersSeed))
+  .then(data => {
+    console.log(Object.keys(data).length + " records inserted!");
+    process.exit(0);
+  })
+  .catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
+
+
+const productSeed = [
+  {
+    name: "Product One",
+    description: "The short description of product one goes here.",
+    price: 100,
+    sku: "AE-001",
+  },
+  {
+    name: "Product Two",
+    description: "The short description of product two goes here.",
+    price: 100,
+    sku: "AE-002",
+  },
+  {
+    name: "Product Three",
+    description: "The short description of product three goes here.",
+    price: 100,
+    sku: "AE-003",
+  },
+]
+
+db.Product
+  .deleteMany({})
+  .then(() => db.Product.create(productSeed))
   .then(data => {
     console.log(Object.keys(data).length + " records inserted!");
     process.exit(0);

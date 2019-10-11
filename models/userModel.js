@@ -32,16 +32,16 @@ const UserSchema = new Schema ({
     type: Schema.Types.ObjectId,
     ref: "Order"
   }],
-  // asssessment is associated with the order then user
-  assessments: [{
-    type: Schema.Types.ObjectId,
-    ref: "Assessment"
-  }],
-  // result are associated with the assessment, order and user
-  results: [{
-    type: Schema.Types.ObjectId,
-    ref: "Result"
-  }]
+  // // products is associated with the order then user
+  // products: [{
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Product"
+  // }],
+  // // results are associated with the products, order and user
+  // results: [{
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Result"
+  // }]
 }, { timestamps: true });
 
 // to make both username and email unique

@@ -57,7 +57,7 @@ module.exports = {
   },
   delete: (req, res) => {
     db.User
-      .findById({ _id: req.params.id })
+      .findById(req.params.id)
       .then(dbModel => dbModel.deleteOne())
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));

@@ -7,16 +7,16 @@ const OrderSchema = new Schema ({
     ref: "User"
   },
   items: [{
-    assessment: {
+    product: {
       type: Schema.Types.ObjectId,
-      ref: "Assessment"
+      ref: "Product"
     },
     quantity: { type: Number, default: 1 }
   }],
-  // results: [{
-  //   type: Schema.Types.ObjectId,
-  //   ref: "Result"
-  // }]
+  results: [{
+    type: Schema.Types.ObjectId,
+    ref: "Result"
+  }]
 }, { timestamps: true });
 
 const Order = mongoose.model("Order", OrderSchema);
