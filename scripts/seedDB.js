@@ -163,3 +163,45 @@ db.Product
     console.error(err);
     process.exit(1);
   });
+
+const assessmentSeed = [
+  {
+    questions: [
+      "This is the question one of one",
+      "This is the question two of one",
+      "This is the question three of one",
+      "This is the question four of one",
+      "This is the question five of one"
+    ]
+  },
+  {
+    questions: [
+      "This is the question one of two",
+      "This is the question two of two",
+      "This is the question three of two",
+      "This is the question four of two",
+      "This is the question five of two"
+    ]
+  },
+  {
+    questions: [
+      "This is the question one of three",
+      "This is the question two of three",
+      "This is the question three of three",
+      "This is the question four of three", 
+      "This is the question five of three"
+    ]
+  },
+]
+
+db.Assessment
+  .deleteMany({})
+  .then(() => db.Assessment.create(assessmentSeed))
+  .then(data => {
+    console.log(Object.keys(data).length + " records inserted!");
+    process.exit(0);
+  })
+  .catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
