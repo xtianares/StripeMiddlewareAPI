@@ -4,7 +4,7 @@ const { isAuthenticated, isAuthorized } = require('../../utils/auth');
 
 // get all users
 router.route("/create")
-  .post(productController.create);
+  .post(isAuthenticated, isAuthorized, productController.create);
 
 // user login
 router.route("/all")

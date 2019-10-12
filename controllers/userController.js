@@ -106,6 +106,9 @@ module.exports = {
     // console.log(req.cookies);
     db.User
       .findById(req.decoded.id)
+      // .populate("orders")
+      // .populate("assessments")
+      // .populate("results")
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

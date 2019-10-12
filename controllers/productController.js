@@ -38,7 +38,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   delete: (req, res) => {
-    db.User
+    db.Product
       .findById(req.params.id)
       .then(dbModel => dbModel.deleteOne())
       .then(dbModel => res.json(dbModel))

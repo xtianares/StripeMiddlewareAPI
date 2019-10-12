@@ -84,24 +84,6 @@ const usersSeed = [
     }
   },
   {
-    firstName: "Test",
-    lastName: "Castanares",
-    email: "xtian5@test.com",
-    phone: "111-111-1111",
-    password: "111111",
-    role: "customer",
-    company: {
-      companyName: "Company 5",
-      address: "123 Somewhere Over There",
-      city: "Lake Mary",
-      state: "Florida",
-      zipcode: "12345",
-      country: "US",
-      companySize: "Leader in the industry within the top 5%",
-      indsutry: "Computer and IT Systems and Services"
-    }
-  },
-  {
     firstName: "Admin",
     lastName: "Test",
     email: "admin@test.com",
@@ -129,7 +111,6 @@ db.User
     console.error(err);
     process.exit(1);
   });
-
 
 const productSeed = [
   {
