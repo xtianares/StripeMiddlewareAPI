@@ -3,13 +3,19 @@ const db = require("../models");
 // Defining methods for the snapController
 module.exports = {
   create: (req, res) => {
-    let orderDetails = req.body;
+    const orderDetails = req.body;
+    const products = orderDetails.items;
+    let orderTotal = 0;
+    products.forEach(product => {
+      orderTotal = orderTotal + product.price;
+    });
+    orderDetails.total = Number(Number(orderTotal).toFixed(2));
     orderDetails.user = req.decoded.id;
-    // console.log(orderDetails);
+
     db.Order
       .create(orderDetails)
       .then(dbOrder => {
-        console.log(dbOrder);
+        // console.log(dbOrder);
         db.User.findByIdAndUpdate(dbOrder.user, { $push: { orders: dbOrder._id } }, { new: true })
           .then(dbUser => {
             // console.log(dbUser);
@@ -20,29 +26,29 @@ module.exports = {
             //   data: dbUser
             // })
           })
+          .then(() => {
+            res.json({
+              status: "success",
+              message: "Order created successfully!!!",
+              data: dbOrder
+            })
+          })
           .catch(err => res.status(422).json(err));
-      })
-      .then(dbOrder => {;
-        res.json({
-          status: "success",
-          message: "Order created successfully!!!",
-          data: dbOrder
-        })
       })
       .catch(err => res.status(422).json(err));
   },
   findAll: (req, res) => {
     db.Order
       .find(req.query)
-      .populate("items.product")
-      .populate("user.email")
+      .populate("items.product", "name description price")
+      .populate("user", "_id email")
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   findById: (req, res) => {
     db.Order
       .findById(req.params.id)
-      .populate("items.product")
+      .populate("items.product", "name description price")
       // .populate("user")
       // .then(dbModel => {
       //   console.log(dbModel.price);

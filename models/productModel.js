@@ -27,7 +27,7 @@ productSchema.index({
 
 // saving price to correct format 0.00
 productSchema.pre('save', function (next) {
-  this.price.display = Number(Number(this.price.display).toFixed(2));
+  this.price = Number(Number(this.price).toFixed(2));
   next();
 });
 
