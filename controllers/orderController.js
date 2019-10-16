@@ -14,26 +14,33 @@ module.exports = {
 
     db.Order
       .create(orderDetails)
+      // .then(dbOrder => {
+      //   // console.log(dbOrder);
+      //   db.User.findByIdAndUpdate(dbOrder.user, { $push: { orders: dbOrder._id } }, { new: true })
+      //     .then(dbUser => {
+      //       // console.log(dbUser);
+      //       console.log("Order added to user successfully!!!");
+      //       // res.json({
+      //       //   status: "success",
+      //       //   message: "Order added to user successfully!!!",
+      //       //   data: dbUser
+      //       // })
+      //     })
+      //     .then(() => {
+      //       res.json({
+      //         status: "success",
+      //         message: "Order created successfully!!!",
+      //         data: dbOrder
+      //       })
+      //     })
+      //     .catch(err => res.status(422).json(err));
+      // })
       .then(dbOrder => {
-        // console.log(dbOrder);
-        db.User.findByIdAndUpdate(dbOrder.user, { $push: { orders: dbOrder._id } }, { new: true })
-          .then(dbUser => {
-            // console.log(dbUser);
-            console.log("Order added to user successfully!!!");
-            // res.json({
-            //   status: "success",
-            //   message: "Order added to user successfully!!!",
-            //   data: dbUser
-            // })
-          })
-          .then(() => {
-            res.json({
-              status: "success",
-              message: "Order created successfully!!!",
-              data: dbOrder
-            })
-          })
-          .catch(err => res.status(422).json(err));
+        res.json({
+          status: "success",
+          message: "Order created successfully!!!",
+          data: dbOrder
+        })
       })
       .catch(err => res.status(422).json(err));
   },
@@ -48,8 +55,8 @@ module.exports = {
   findById: (req, res) => {
     db.Order
       .findById(req.params.id)
-      .populate("items.product", "name description price")
-      // .populate("user")
+      .populate("items.product", "name description price thumbnail sku")
+      .populate("user", "email")
       // .then(dbModel => {
       //   console.log(dbModel.price);
       // })

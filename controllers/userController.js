@@ -106,7 +106,16 @@ module.exports = {
     // console.log(req.cookies);
     db.User
       .findById(req.decoded.id)
-      .populate("orders")
+      // .populate("orders", "_id items total createdAt")
+      .populate({
+        path: "orders", 
+        select: "_id total createdAt",
+        populate: {
+          path: "items.product",
+          select: "_id name description price thumbnail",
+        }
+      })
+      // .populate("orders.items.product", "name description price")
       // .populate("assessments")
       // .populate("results")
       .then(dbModel => res.json(dbModel))

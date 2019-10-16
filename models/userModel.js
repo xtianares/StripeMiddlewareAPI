@@ -15,6 +15,7 @@ const UserSchema = new Schema ({
     match: [/.+@.+\..+/, "Please enter a valid email address"]
   },
   phone: { type: String, trim: true, required: true },
+  // username: { type: String, trim: true, required: true, unique: true },
   password: { type: String, trim: true, required: true },
   company: {
     companyName: { type: String, trim: true, required: true },
@@ -26,12 +27,16 @@ const UserSchema = new Schema ({
     zipcode: { type: String, trim: true },
     country: { type: String, trim: true }
   },
+  // company: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Company"
+  // },
   role: { type: String, trim: true, default: "customer" },
   // order are associated with the user
-  orders: [{
-    type: Schema.Types.ObjectId,
-    ref: "Order"
-  }],
+  // orders: [{
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Order"
+  // }],
   // // products is associated with the order then user
   // products: [{
   //   type: Schema.Types.ObjectId,
@@ -46,6 +51,7 @@ const UserSchema = new Schema ({
 
 // to make both username and email unique
 // UserSchema.index({
+//   username: 1,
 //   email: 1,
 // }, {
 //   unique: true,
@@ -57,12 +63,21 @@ const UserSchema = new Schema ({
 //   next();
 // });
 
+UserSchema.virtual('orders', {
+  ref: 'Order',
+  localField: '_id',
+  foreignField: 'user',
+});
+
 // to prevent returning the user's password
 UserSchema.methods.toJSON = function () {
   const obj = this.toObject();
   delete obj.password;
   return obj;
 }
+
+UserSchema.set('toObject', { virtuals: true });
+UserSchema.set('toJSON', { virtuals: true });
 
 const User = mongoose.model("User", UserSchema);
 
