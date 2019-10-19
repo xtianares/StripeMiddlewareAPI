@@ -10,7 +10,7 @@ module.exports = {
       orderTotal = orderTotal + product.price;
     });
     orderDetails.total = Number(Number(orderTotal).toFixed(2));
-    orderDetails.user = req.decoded.id;
+    orderDetails.company = req.decoded.company;
 
     db.Order
       .create(orderDetails)

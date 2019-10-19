@@ -18,16 +18,6 @@ const usersSeed = [
     phone: "111-111-1111",
     password: "111111",
     role: "customer",
-    company: {
-      companyName: "Company 1",
-      address: "123 Somewhere Over There",
-      city: "Lake Mary",
-      state: "Florida",
-      zipcode: "12345",
-      country: "US",
-      companySize: "Startup",
-      indsutry: "Computer and IT Systems and Services"
-    }
   },
   {
     firstName: "Test",
@@ -36,52 +26,6 @@ const usersSeed = [
     phone: "111-111-1111",
     password: "111111",
     role: "customer",
-    company: {
-      companyName: "Company 2",
-      address: "123 Somewhere Over There",
-      city: "Lake Mary",
-      state: "Florida",
-      zipcode: "12345",
-      country: "US",
-      companySize: "Small business within the top 50-75%",
-      indsutry: "Computer and IT Systems and Services"
-    }
-  },
-  {
-    firstName: "Test",
-    lastName: "Castanares",
-    email: "xtian3@test.com",
-    phone: "111-111-1111",
-    password: "111111",
-    role: "customer",
-    company: {
-      companyName: "Company 3",
-      address: "123 Somewhere Over There",
-      city: "Lake Mary",
-      state: "Florida",
-      zipcode: "12345",
-      country: "US",
-      companySize: "Medium business within the top 15-50%",
-      indsutry: "Computer and IT Systems and Services"
-    }
-  },
-  {
-    firstName: "Test",
-    lastName: "Castanares",
-    email: "xtian4@test.com",
-    phone: "111-111-1111",
-    password: "111111",
-    role: "customer",
-    company: {
-      companyName: "Company 4",
-      address: "123 Somewhere Over There",
-      city: "Lake Mary",
-      state: "Florida",
-      zipcode: "12345",
-      country: "US",
-      companySize: "Large business within the top 5-15%",
-      indsutry: "Computer and IT Systems and Services"
-    }
   },
   {
     firstName: "Admin",
@@ -90,9 +34,6 @@ const usersSeed = [
     phone: "111-111-1111",
     password: "111111",
     role: "admin",
-    company: {
-      companyName: "Assured Enterprises"
-    }
   },
 ];
 

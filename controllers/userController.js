@@ -10,6 +10,7 @@ module.exports = {
     if (req.body.password) {
       req.body.password = bcrypt.hashSync(req.body.password, saltRounds);
     }
+    delete req.body.role;
     db.User
       .create(req.body)
       // .then(dbModel => res.json(dbModel))
@@ -69,12 +70,14 @@ module.exports = {
         email: req.body.email
       })
       .then(userInfo => {
-        // console.log(req.body.password);
-        // console.log(userInfo.password);
+        // console.log(req.body.password, 1);
+        // console.log(userInfo.password, 2);
+        // console.log(bcrypt.compareSync(req.body.password, userInfo.password));
         if (bcrypt.compareSync(req.body.password, userInfo.password)) {
           const token = jwt.sign({
             id: userInfo._id,
-            role: userInfo.role
+            role: userInfo.role,
+            company: userInfo.company
           }, req.app.get('secretKey'), {
             expiresIn: '12h',
             issuer: "AssuredApp",
@@ -107,15 +110,26 @@ module.exports = {
     db.User
       .findById(req.decoded.id)
       // .populate("orders", "_id items total createdAt")
+      // .populate({
+      //   path: "orders", 
+      //   select: "_id total createdAt",
+      //   populate: {
+      //     path: "items.product",
+      //     select: "_id name description price thumbnail",
+      //   }
+      // })
       .populate({
-        path: "orders", 
-        select: "_id total createdAt",
+        path: "company",
+        // select: "_id total createdAt",
         populate: {
-          path: "items.product",
-          select: "_id name description price thumbnail",
+          path: "orders",
+          select: "_id total items createdAt",
+          populate: {
+            path: "items.product",
+            select: "_id name description price thumbnail",
+          }
         }
       })
-      // .populate("orders.items.product", "name description price")
       // .populate("assessments")
       // .populate("results")
       .then(dbModel => res.json(dbModel))

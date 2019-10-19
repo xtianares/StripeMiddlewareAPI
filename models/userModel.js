@@ -17,20 +17,20 @@ const UserSchema = new Schema ({
   phone: { type: String, trim: true, required: true },
   // username: { type: String, trim: true, required: true, unique: true },
   password: { type: String, trim: true, required: true },
-  company: {
-    companyName: { type: String, trim: true, required: true },
-    companySize: { type: String, trim: true },
-    industry: { type: String, trim: true },
-    address: { type: String, trim: true },
-    city: { type: String, trim: true },
-    state: { type: String, trim: true },
-    zipcode: { type: String, trim: true },
-    country: { type: String, trim: true }
-  },
   // company: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "Company"
+  //   companyName: { type: String, trim: true, required: true },
+  //   companySize: { type: String, trim: true },
+  //   industry: { type: String, trim: true },
+  //   address: { type: String, trim: true },
+  //   city: { type: String, trim: true },
+  //   state: { type: String, trim: true },
+  //   zipcode: { type: String, trim: true },
+  //   country: { type: String, trim: true }
   // },
+  company: {
+    type: Schema.Types.ObjectId,
+    ref: "Company"
+  },
   role: { type: String, trim: true, default: "customer" },
   // order are associated with the user
   // orders: [{
@@ -63,11 +63,11 @@ const UserSchema = new Schema ({
 //   next();
 // });
 
-UserSchema.virtual('orders', {
-  ref: 'Order',
-  localField: '_id',
-  foreignField: 'user',
-});
+// UserSchema.virtual('orders', {
+//   ref: 'Order',
+//   localField: '_id',
+//   foreignField: 'user',
+// });
 
 // to prevent returning the user's password
 UserSchema.methods.toJSON = function () {
@@ -76,8 +76,8 @@ UserSchema.methods.toJSON = function () {
   return obj;
 }
 
-UserSchema.set('toObject', { virtuals: true });
-UserSchema.set('toJSON', { virtuals: true });
+// UserSchema.set('toObject', { virtuals: true });
+// UserSchema.set('toJSON', { virtuals: true });
 
 const User = mongoose.model("User", UserSchema);
 
