@@ -3,17 +3,17 @@ const db = require("../models");
 // Defining methods for the snapController
 module.exports = {
   create: (req, res) => {
-    const orderDetails = req.body;
-    const products = orderDetails.items;
+    const orderData = req.body;
+    const products = orderData.items;
     let orderTotal = 0;
     products.forEach(product => {
       orderTotal = orderTotal + product.price;
     });
-    orderDetails.total = Number(Number(orderTotal).toFixed(2));
-    orderDetails.company = req.decoded.company;
+    orderData.total = Number(Number(orderTotal).toFixed(2));
+    orderData.company = req.decoded.company;
 
     db.Order
-      .create(orderDetails)
+      .create(orderData)
       // .then(dbOrder => {
       //   // console.log(dbOrder);
       //   db.User.findByIdAndUpdate(dbOrder.user, { $push: { orders: dbOrder._id } }, { new: true })

@@ -6,19 +6,21 @@ const saltRounds = 10;
 module.exports = {
   create: (req, res) => {
     // console.log(req.body);
-    const companyData = {
-      name: req.body.companyName
-    }
-    if (req.body.password) {
-      req.body.password = bcrypt.hashSync(req.body.password, saltRounds);
-    }
-    delete req.body.companyName;
-    delete req.body.role;
     const userData = req.body;
+    const companyData = {
+      name: userData.companyName
+    }
+    if (userData.password) {
+      userData.password = bcrypt.hashSync(userData.password, saltRounds);
+    }
+    delete userData.companyName;
+    delete userData.role;
+    // new acccoun, creates the company
     db.Company
       .create(companyData)
       .then(companyData => {
         userData.company = companyData._id;
+        // creates the main user and then add it the the newly created company
         db.User
           .create(userData)
           .then(dbModel => {
@@ -32,6 +34,7 @@ module.exports = {
               })
               .catch(err => res.status(422).json(err));
           })
+          .catch(err => res.status(422).json(err));
       })
       .catch(err => res.status(422).json(err));
   },

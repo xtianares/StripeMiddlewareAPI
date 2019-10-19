@@ -1,25 +1,23 @@
 const router = require("express").Router();
-const accountController = require("../../controllers/accountController");
+const companyController = require("../../controllers/companyController");
 const { isAuthenticated, isAuthorized } = require('../../utils/auth');
 
-// create all users
 router.route("/create")
-  .post(accountController.create);
+  .post(companyController.create);
 
-// add all users
 router.route("/add-user")
-  .put(isAuthenticated, accountController.addUser);
+  .put(isAuthenticated, companyController.addUser);
 
 router.route("/update")
-  .put(isAuthenticated, accountController.update);
+  .put(isAuthenticated, companyController.update);
 
 router.route("/all")
-  .get(isAuthenticated, isAuthorized, accountController.findAll);
+  .get(isAuthenticated, isAuthorized, companyController.findAll);
 
 // find user by id, needs to be last
 router.route("/:id")
-  .get(isAuthenticated, isAuthorized, accountController.findById)
-  .put(isAuthenticated, isAuthorized, accountController.update)
-  .delete(isAuthenticated, isAuthorized, accountController.delete);
+  .get(isAuthenticated, isAuthorized, companyController.findById)
+  .put(isAuthenticated, isAuthorized, companyController.update)
+  .delete(isAuthenticated, isAuthorized, companyController.delete);
 
 module.exports = router;
