@@ -1,4 +1,5 @@
 const db = require("../models");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 // Defining methods for the snapController
 module.exports = {
@@ -14,28 +15,25 @@ module.exports = {
 
     db.Order
       .create(orderData)
-      // .then(dbOrder => {
-      //   // console.log(dbOrder);
-      //   db.User.findByIdAndUpdate(dbOrder.user, { $push: { orders: dbOrder._id } }, { new: true })
-      //     .then(dbUser => {
-      //       // console.log(dbUser);
-      //       console.log("Order added to user successfully!!!");
-      //       // res.json({
-      //       //   status: "success",
-      //       //   message: "Order added to user successfully!!!",
-      //       //   data: dbUser
-      //       // })
-      //     })
-      //     .then(() => {
-      //       res.json({
-      //         status: "success",
-      //         message: "Order created successfully!!!",
-      //         data: dbOrder
-      //       })
-      //     })
-      //     .catch(err => res.status(422).json(err));
-      // })
-      .then(dbOrder => {
+      .then(async dbOrder => {
+        // try {
+        //   let { status } = await stripe.charges.create({
+        //     amount: 2000,
+        //     currency: "usd",
+        //     description: "An example charge",
+        //     source: req.body
+        //   });
+
+        //   res.json({
+        //     status: "success",
+        //     message: "Order created successfully!!!",
+        //     data: dbOrder,
+        //     stripeStatus: status
+        //   })
+        // } catch (err) {
+        //   console.log(err);
+        //   res.status(500).end();
+        // }
         res.json({
           status: "success",
           message: "Order created successfully!!!",

@@ -22,7 +22,11 @@ const OrderSchema = new Schema ({
   results: [{
     type: Schema.Types.ObjectId,
     ref: "Result"
-  }]
+  }],
+  stripe: {
+    orderId: { type: String, trim: true }
+  },
+  paid: { type: Boolean, default: false }
 }, { timestamps: true });
 
 // OrderSchema.pre('save', function (next) {

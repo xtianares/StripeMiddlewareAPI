@@ -82,7 +82,7 @@ module.exports = {
             expiresIn: '12h',
             issuer: "AssuredApp",
           });
-          const secureFlag = process.env.NODE_ENV !== "Development" ? true : false; // set false if in Development environment and true in Production environment
+          const secureFlag = process.env.NODE_ENV !== "development" ? true : false; // set false if in Development environment and true in Production environment
           res.header('x-auth-header', token).cookie('userToken', token, { expires: new Date(Date.now() + 43200000), httpOnly: true, secure: secureFlag }).json({
             status: "success",
             message: "User Found!!!", 
@@ -123,7 +123,7 @@ module.exports = {
         // select: "_id total createdAt",
         populate: {
           path: "orders",
-          select: "_id total items createdAt",
+          select: "_id total items paid createdAt",
           populate: {
             path: "items.product",
             select: "_id name description price thumbnail",

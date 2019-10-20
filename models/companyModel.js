@@ -15,6 +15,9 @@ const CompanySchema = new Schema ({
     ref: "User",
     required: true
   }],
+  stripe: {
+    customerId: { type: String, trim: true }
+  }
 }, { timestamps: true });
 
 CompanySchema.virtual('orders', {

@@ -14,7 +14,10 @@ const productSchema = new Schema ({
   relatedProducts: [{
     type: Schema.Types.ObjectId,
     ref: "Product"
-  }]
+  }],
+  stripe: {
+    productId: { type: String, trim: true }
+  }
 }, { timestamps: true });
 
 // to make both name and sku unique
