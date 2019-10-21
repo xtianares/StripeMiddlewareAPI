@@ -16,7 +16,8 @@ const productSchema = new Schema ({
     ref: "Product"
   }],
   stripe: {
-    productId: { type: String, trim: true }
+    productId: { type: String, trim: true },
+    subscriptionId: { type: String, trim: true },
   }
 }, { timestamps: true });
 

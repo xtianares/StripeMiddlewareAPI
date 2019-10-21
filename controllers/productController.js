@@ -1,4 +1,5 @@
 const db = require("../models");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 // Defining methods for the snapController
 module.exports = {
@@ -7,11 +8,24 @@ module.exports = {
       .create(req.body)
       // .then(dbModel => res.json(dbModel))
       .then(dbModel => {
-        res.json({
-          status: "success",
-          message: "Product created successfully!!!",
-          data: dbModel
-        });
+        stripe.products.create({
+          name: dbModel.name,
+          type: 'service',
+          // description: dbModel.description
+        })
+        .then(stripeDb => {
+          db.Product.findByIdAndUpdate(dbModel._id, { stripe: { productId: stripeDb.id } }, { new: true })
+            .then(dbModel => {
+              res.json({
+                status: "success",
+                message: "Product created successfully!!!",
+                data: dbModel,
+                stripe: stripeDb
+              });
+            })
+            .catch(err => res.status(422).json(err));
+        })  
+        .catch(err => res.status(422).json(err));
       })
       .catch(err => res.status(422).json(err));
   },

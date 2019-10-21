@@ -24,7 +24,8 @@ const OrderSchema = new Schema ({
     ref: "Result"
   }],
   stripe: {
-    orderId: { type: String, trim: true }
+    orderId: { type: String, trim: true },
+    subscriptionId: { type: String, trim: true },
   },
   paid: { type: Boolean, default: false }
 }, { timestamps: true });
