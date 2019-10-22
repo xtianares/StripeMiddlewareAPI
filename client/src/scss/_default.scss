@@ -1,0 +1,98 @@
+/* ----------------------------------------------------------------------------
+	Typography
+----------------------------------------------------------------------------- */
+h1, h2, h3, h4, h5 {
+	/*margin: 25px 0 15px 0;*/
+	margin: 1.2em 0 0.5em 0;
+	padding: 0;
+  color: #444444;
+  font-family: 'Roboto Slab', 'Open Sans', 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+	font-weight: 400;
+	text-rendering: optimizeLegibility;
+	line-height: 1.4;
+}
+h1, .h1 { font-size: 1.602em; margin-top: 0; }
+h2, .h2 { font-size: 1.424em; }
+h3, .h3 { font-size: 1.266em; }
+h4, .h4 { font-size: 1.125em; }
+h5, .h5 { font-size: 1em; }
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { color: #1982d1; }
+p { margin: 0 0 1.3em 0; }
+a { color: #1982d1; text-decoration: none; outline: none !important; }
+a:hover, a:active { text-decoration: underline; /*border-width: 0 0 1px 0; border-style: dotted;*/ -webkit-tap-highlight-color: rgba(0,0,0,0); }
+a.img:hover, a.img:active { text-decoration: none; border: 0; }
+a[href^="tel:"] { color: inherit; border: 0; text-decoration: none; }
+// ul, ol { margin-left: 35px; margin-top: 1em; margin-bottom: 1em; }
+// ul.nav, ol.nav { margin-left: 0; margin-top: 1em; margin-bottom: 1em; }
+// h1 + ul, h2 + ul, h3 + ul, h4 + ul, h1 + ol, h2 + ol, h3 + ol, h4 + ol  { margin-top: 0; }
+// ul { list-style: disc outside; }
+// ol { list-style: decimal; }
+// ul.check, ul.star, ul.carrot { margin-left: 15px; list-style: none outside; }
+// ul.disc { list-style: disc outside; }
+// ul.circle { list-style: circle outside; }
+// ul.square { list-style: square outside; }
+// ul.check li, ul.star li, ul.carrot li { padding: 0 0 0 22px; }
+// ul.carrot li { padding: 0 0 0 16px; }
+// ul.check > li:before, ul.star > li:before, ul.carrot > li:before { display: inline-block; margin-top: 7px; margin-left: -22px; width: 22px; content: "\e840"; height: inherit; color: #0099FF; font-family: 'icons'; font-size: 14px; vertical-align: top; font-weight: normal !important; }
+// ul.star > li:before { content: "\e834"; }
+// ul.carrot > li:before { margin-top: -1px; margin-left: -16px; width: 16px; content: "\00BB"; color: inherit; font-size: inherit; }
+// ul.check li li, ul.star li li, ul.carrot li li { padding: 0; }
+// ul ul, ul ol, ol ol, ol ul { margin: 5px 0 5px 25px; }
+// ol ol { list-style: lower-alpha; }
+// ol ul, ul ul { list-style: circle; }
+// ul ol { list-style: decimal; }
+// ul li, ol li { margin: 5px 0 5px 0; }
+// dl dt { font-weight: bold; }
+// #content, #main_content, .break_word { overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; }
+
+@media (min-width: 48em) { /* Medium devices (tablets, 768px and up) */
+  h1, .h1 { font-size: 1.8em; }
+	h2, .h2 { font-size: 1.55em; }
+	h3, .h3 { font-size: 1.32em; }
+	h4, .h4 { font-size: 1.125em; }
+	h5, .h5 { font-size: 1em; }
+}
+@media (min-width: 62em) { /* Large devices (desktops, 992px and up) */
+	h1, .h1 { font-size: 2.074em; }
+	h2, .h2 { font-size: 1.728em; }
+	h3, .h3 { font-size: 1.44em; }
+	h4, .h4 { font-size: 1.2em; }
+	h5, .h5 { font-size: 1.1em; }
+}
+@media (min-width: 75em) { /* Extra large devices (large desktops, 1200px and up) */
+	h1, .h1 { font-size: 2.441em; }
+	h2, .h2 { font-size: 1.953em; }
+	h3, .h3 { font-size: 1.563em; }
+	h4, .h4 { font-size: 1.25em; }
+	h5, .h5 { font-size: 1.1em; }
+}
+
+/* ----- overrides ----- */
+.form-control:focus,
+.custom-select:focus {
+  box-shadow: none;
+}
+b, strong {
+  font-weight: 600;
+}
+.modal-header h1,
+.modal-header h2,
+.modal-header h3,
+.modal-header h4,
+.modal-header h5 {
+	margin-top: 0;
+	font-weight: 400;
+}
+
+input[type=number] {
+	appearance: textfield;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input::placeholder{
+  color: #e0e0e0 !important;
+}

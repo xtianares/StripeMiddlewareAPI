@@ -5,45 +5,80 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 module.exports = {
   create: (req, res) => {
     db.Product
+      // create product in our DB
       .create(req.body)
-      // .then(dbModel => res.json(dbModel))
+      // create stripe product of type service
       .then(dbModel => {
         stripe.products.create({
           name: dbModel.name,
           type: 'service',
-          // description: dbModel.description
         })
-        .then(stripeDb => {
-          db.Product.findByIdAndUpdate(dbModel._id, { stripe: { productId: stripeDb.id } }, { new: true })
-            .then(dbModel => {
-              res.json({
-                status: "success",
-                message: "Product created successfully!!!",
-                data: dbModel,
-                stripe: stripeDb
-              });
-            })
-            .catch(err => res.status(422).json(err));
-        })  
+        // create stripe subscription plan of the current product
+        .then(stripeProduct => {
+          const amount = dbModel.price * 100 / 12;
+          stripe.plans.create({
+            product: stripeProduct.id,
+            nickname: dbModel.name,
+            currency: 'usd',
+            interval: 'month',
+            amount: amount,
+          })
+          .then(stripePlan => {
+            db.Product.findByIdAndUpdate(dbModel._id, { stripe: { productId: stripeProduct.id, planId: stripePlan.id } }, { new: true })
+              .then(dbModel => {
+                res.json({
+                  status: "success",
+                  message: "Product created successfully!!!",
+                  data: dbModel,
+                  stripe: {
+                    product: stripeProduct,
+                    plans: stripePlan
+                  }
+                });
+              })
+              .catch(err => res.status(422).json(err));
+          })
+          .catch(err => res.status(422).json(err));
+        })
         .catch(err => res.status(422).json(err));
       })
       .catch(err => res.status(422).json(err));
   },
   findAll: (req, res) => {
-    db.Product
-      .find(req.query)
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+    stripe.products.list({ 
+      limit: 10
+    })
+    .then(productsData => res.json(productsData))
+    .catch(err => res.status(422).json(err));
+    // db.Product
+    //   .find(req.query)
+    //   .then(dbModel => res.json(dbModel))
+    //   .catch(err => res.status(422).json(err));
   },
   findById: (req, res) => {
-    db.Product
-      .findById(req.params.id)
-      .populate("relatedProducts")
-      // .then(dbModel => {
-      //   console.log(dbModel.price);
-      // })
-      .then(dbModel => res.json(dbModel))
+    stripe.products.retrieve(req.params.id)
+      .then(productData => {
+        stripe.plans.list({
+          limit: 3,
+          product: productData.id
+        })
+          .then(planData => {
+            res.json({
+              productData,
+              planData
+            });
+          })
+          .catch(err => res.status(422).json(err));
+      })
       .catch(err => res.status(422).json(err));
+    // db.Product
+    //   .findById(req.params.id)
+    //   .populate("relatedProducts")
+    //   // .then(dbModel => {
+    //   //   console.log(dbModel.price);
+    //   // })
+    //   .then(dbModel => res.json(dbModel))
+    //   .catch(err => res.status(422).json(err));
   },
   update: (req, res) => {
     db.Product

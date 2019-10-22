@@ -1,0 +1,132 @@
+#header_wrap {
+  background-color: #57127A;
+}
+a[href^="tel:"] {
+  color: inherit;
+  border: 0;
+}
+#header {
+  width: 100%;
+  a.logo {
+    float: left;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    border: 0;
+    width: 75%;
+    color: #fff;
+    font-family: 'Roboto Slab', 'Open Sans', 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 1.5rem;
+    max-width: 260px; /* change this to the width of the actual logo */
+    img {
+      margin-right: 20px;
+      vertical-align: middle;
+      width: auto;
+      max-width: 160px;
+    }
+    span {
+      display: inline-block;
+      font-size: 30px;
+      color: #F96E5B;
+      vertical-align: middle;
+    }
+  }
+  #support {
+    display: none;
+    float: right;
+    margin: 0 0 0 0;
+    width: auto;
+    p {
+      float: right;
+      margin: 2px 12px 0 7px;
+        color: #fff;
+    }
+    strong {
+      font-size: 16px;
+    }
+    a.login {
+      float: right;
+      margin: 0 0 0 0;
+      padding: 0 12px 2px 12px;
+      font-weight: normal;
+      color: #fff;
+      background: #033059;
+      text-decoration: none;
+      border-radius: 0 0 4px 4px;
+      border: 0;
+    }
+    a.login:hover {
+      color: #ccc;
+    }
+    a.livechat:hover:before {
+      color: #ccc;
+    }
+    span.phone {
+      display: none;
+      padding-right: 8px;
+      margin-right: 5px;
+      border-right: 1px dotted #999;
+    }
+    a.livechat {
+      color: #fff;
+      text-decoration: none;
+      border: 0;
+    }
+  }
+  a.login:before {
+    display: inline-block;
+    margin-top: 1px;
+    margin-right: 6px;
+    width: inherit;
+    height: inherit;
+    content: "\e897";
+    color: inherit;
+    font-family: 'Material Icons';
+    font-weight: normal;
+    text-align: center;
+    font-size: 105%;
+    vertical-align: top;
+  }
+  a.livechat:before {
+    display: inline-block;
+    margin-right: 5px;
+    width: inherit;
+    height: inherit;
+    content: "\e0b7";
+    color: inherit;
+    font-family: 'Material Icons';
+    font-weight: normal;
+    text-align: center;
+    font-size: 105%;
+    vertical-align: top;
+  }
+}
+.header {
+  color: #fff;
+
+  .navbar-brand {
+    font-family: 'Roboto Slab', 'Open Sans', 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+  }
+  .navbar-nav {
+    font-weight: 300;
+  }
+}
+.navbar {
+  .navbar-brand {
+    padding-top: 0;
+    padding-bottom: 0;
+    img {
+      max-width: 160px;
+    }
+  }
+}
+
+@media (min-width: 36em) { /* Small devices (landscape phones, 576px and up) - col-sm-* */
+  #header #support { display: block; }
+}
+@media (min-width: 48em) { /* Medium devices (tablets, 768px and up) - col-md-* */
+
+}
+@media only screen and (min-width: 56.25em) { /* roughtly 900px/16px */
+	#header #support span.phone { display: inline-block; }
+
+}
