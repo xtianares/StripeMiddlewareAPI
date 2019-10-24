@@ -14,11 +14,28 @@ module.exports = {
     db.User
       .create(req.body)
       // .then(dbModel => res.json(dbModel))
-      .then(dbModel => {
-        res.json({
+      .then(userInfo => {
+        // res.json({
+        //   status: "success",
+        //   message: "User created successfully!!!",
+        //   data: dbModel
+        // });
+        const token = jwt.sign({
+          id: userInfo._id,
+          role: userInfo.role,
+          company: userInfo.company
+        }, req.app.get('secretKey'), {
+          expiresIn: '12h',
+          issuer: "AssuredApp",
+        });
+        const secureFlag = process.env.NODE_ENV !== "development" ? true : false; // set false if in Development environment and true in Production environment
+        res.header('x-auth-header', token).cookie('userToken', token, { expires: new Date(Date.now() + 43200000), httpOnly: true, secure: secureFlag }).json({
           status: "success",
-          message: "User created successfully!!!",
-          data: dbModel
+          message: "User created and login successfully!!!",
+          data: {
+            user: userInfo,
+            token: token
+          }
         });
       })
       .catch(err => res.status(422).json(err));

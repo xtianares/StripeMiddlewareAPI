@@ -3,7 +3,7 @@ const express = require("express");
 const cookieParser = require('cookie-parser');
 const mongoose = require("mongoose");
 
-// const cors = require("cors"); // disabled for now until we need Jack's tool to be able to use the API
+const cors = require("cors"); // disabled for now until we need Jack's tool to be able to use the API
 const routes = require("./routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -14,7 +14,7 @@ app.set('secretKey', process.env.JWT_SECRET); // jwt secret token from environme
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.json({limit: '50mb'}));
 app.use(cookieParser());
-// app.use(cors()); // disabled for now until we need Jack's tool to be able to use the API
+app.use(cors()); // disabled for now until we need Jack's tool to be able to use the API
 app.disable('x-powered-by');
 
 // Serve up static assets (usually on heroku)

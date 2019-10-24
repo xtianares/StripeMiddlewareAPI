@@ -1,20 +1,26 @@
 import axios from "axios";
 
-// need to use .env file to have DL/ML/RL API endpoints
-const API_BASE_URL = process.env.REACT_APP_BASE_API_URL;
-
 export default {
   // create a new account
   createAccount: (accountData) => {
-    return axios.post(API_BASE_URL + "/api/account/create", accountData);
+    return axios.post("/api/account/create", accountData);
   },
   // get account info based of account ID
   getAccountByID: (id) => {
-    return axios.get(API_BASE_URL + "/api/account" + id);
+    return axios.get("/api/account/" + id);
   },
   // udpate account info based of account ID
   updateAccountByID: (id, accountData) => {
-    return axios.put(API_BASE_URL + "/api/account" + id, accountData);
+    return axios.put("/api/account/" + id, accountData);
+  },
+  getProducts: () => {
+    return axios.get("/api/products/all");
+  },
+  getProductByID: (id) => {
+    return axios.get("/api/product/" + id);
+  },
+  login: (accountData) => {
+    return axios.get("/api/user/login", accountData);
   },
 
 };

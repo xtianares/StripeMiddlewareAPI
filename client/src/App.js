@@ -16,6 +16,7 @@ class App extends Component {
         <main>
           <Switch>
             <Route exact path="/" component={CreateAccount} />
+            <Route exact path="/buy/:productId" component={CreateAccount} />
             <Route component={NoMatch} />
           </Switch>
         </main>

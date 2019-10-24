@@ -62,13 +62,13 @@ module.exports = {
           limit: 3,
           product: productData.id
         })
-          .then(planData => {
-            res.json({
-              productData,
-              planData
-            });
-          })
-          .catch(err => res.status(422).json(err));
+        .then(plansData => {
+          res.json({
+            productData,
+            plansData
+          });
+        })
+        .catch(err => res.status(422).json(err));
       })
       .catch(err => res.status(422).json(err));
     // db.Product

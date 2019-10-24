@@ -1,5 +1,6 @@
 const db = require("../models");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const saltRounds = 10;
 
 // Defining methods for the userController
@@ -23,14 +24,31 @@ module.exports = {
         // creates the main user and then add it the the newly created company
         db.User
           .create(userData)
-          .then(dbModel => {
-            db.Company.findByIdAndUpdate(dbModel.company, { $push: { users: dbModel._id } }, { new: true })
+          .then(userInfo => {
+            db.Company.findByIdAndUpdate(userInfo.company, { $push: { users: userInfo._id } }, { new: true })
               .then(() => {
-                res.json({
+                // res.json({
+                //   status: "success",
+                //   message: "Account created successfully!!!",
+                //   data: dbModel
+                // })
+                const token = jwt.sign({
+                  id: userInfo._id,
+                  role: userInfo.role,
+                  company: userInfo.company
+                }, req.app.get('secretKey'), {
+                  expiresIn: '12h',
+                  issuer: "AssuredApp",
+                });
+                const secureFlag = process.env.NODE_ENV !== "development" ? true : false; // set false if in Development environment and true in Production environment
+                res.header('x-auth-header', token).cookie('userToken', token, { expires: new Date(Date.now() + 43200000), httpOnly: true, secure: secureFlag }).json({
                   status: "success",
-                  message: "Account created successfully!!!",
-                  data: dbModel
-                })
+                  message: "User created and login successfully!!!",
+                  data: {
+                    user: userInfo,
+                    token: token
+                  }
+                });
               })
               .catch(err => res.status(422).json(err));
           })

@@ -5,13 +5,14 @@ import {
   Col,
   Form,
   FormGroup,
+  CustomInput,
   Label,
   Input,
   Button
 } from 'reactstrap';
 import {Helmet} from "react-helmet";
 import API from "../utils/API";
-import StateDropdown from "../components/StateDropdown";
+// import StateDropdown from "../components/StateDropdown";
 
 class CreateAccount extends Component {
   state = {
@@ -27,22 +28,25 @@ class CreateAccount extends Component {
     phone: "",
     email: "",
     validateEmail: "",
-    password: ""
+    password: "",
+    productId: this.props.match.params.productId,
+    planId: "",
+    productData: {},
+    plansData: []
   };
-
-  componentWillMount() {
-    // console.log("it mounted");
-    this.setState({
-      productsData: this.productsData
-    });
-    // console.log(this.state);
-    // call the api here to get the product info
-  }
 
   componentDidMount() {
     // console.log("it mounted");
-    console.log(this.state);
-    // call the api here to get the product info
+    // const { productId } = this.props.match.params
+    API.getProductByID(this.state.productId)
+    .then(response => {
+      // console.log(response.data);
+      this.setState({
+        productData: response.data.productData,
+        plansData: response.data.plansData.data
+      })
+    })
+    .catch(err => console.log(err));
   }
 
   handleChange = event => {
@@ -56,21 +60,33 @@ class CreateAccount extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
     // call api here to submit form information
-    const {firstName, lastName, email, phone, companyName, password } = this.state
+    const { firstName, lastName, email, phone, companyName, password, productId, planId } = this.state
     API.createAccount({
       firstName,
       lastName,
       email,
       phone,
       companyName,
-      password,
+      password
     })
     .then(response => {
-      console.log(response)
+      console.log(response.data);
     })
+    .catch(err => console.log(err));
   }
 
   render() {
+    // console.log(this.state.productData);
+    // console.log(this.state.plansData);
+    const productName = this.state.productData.name;
+    const plans = this.state.plansData.map((plan) => {
+    const amount = plan.amount / 100;
+    const label = `${plan.nickname} $${amount} ${plan.currency} / ${plan.interval}`;
+      return (
+        <CustomInput key={plan.id} id={plan.id} type="radio" name="planId" value={plan.id} label={label} onChange={this.handleChange} />
+      )
+    })
+
     return (
       <Fragment>
         <Helmet>
@@ -126,6 +142,8 @@ class CreateAccount extends Component {
                     <Input onChange={this.handleChange} value={this.state.password} type="password" name="password" id="password" data-hj-masked />
                   </Col>
                 </FormGroup>
+                <h3>Select a plan for "{productName}"</h3>
+                {plans}
 
                 {/* <h2>Company Mailing Address</h2>
               <p><strong className="text-danger">All mailed correspondence from our office will be sent to the address below.</strong></p>
