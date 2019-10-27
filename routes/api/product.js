@@ -3,8 +3,8 @@ const productController = require("../../controllers/productController");
 const { isAuthenticated, isAuthorized } = require('../../utils/auth');
 
 // get all users
-router.route("/create")
-  .post(isAuthenticated, isAuthorized, productController.create);
+// router.route("/create")
+//   .post(isAuthenticated, isAuthorized, productController.create);
 
 // user login
 router.route("/all")
@@ -12,8 +12,8 @@ router.route("/all")
 
 // find user by id, needs to be last
 router.route("/:id")
-  .get(productController.findById)
-  .put(isAuthenticated, isAuthorized, productController.update)
-  .delete(isAuthenticated, isAuthorized, productController.delete);
+  .get(productController.findById);
+  // .put(isAuthenticated, isAuthorized, productController.update)
+  // .delete(isAuthenticated, isAuthorized, productController.delete);
 
 module.exports = router;

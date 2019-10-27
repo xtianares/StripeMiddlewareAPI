@@ -16,7 +16,7 @@ module.exports = {
     }
     delete userData.companyName;
     delete userData.role;
-    // new acccoun, creates the company
+    // new account, creates the company
     db.Company
       .create(companyData)
       .then(companyData => {
@@ -27,11 +27,6 @@ module.exports = {
           .then(userInfo => {
             db.Company.findByIdAndUpdate(userInfo.company, { $push: { users: userInfo._id } }, { new: true })
               .then(() => {
-                // res.json({
-                //   status: "success",
-                //   message: "Account created successfully!!!",
-                //   data: dbModel
-                // })
                 const token = jwt.sign({
                   id: userInfo._id,
                   role: userInfo.role,

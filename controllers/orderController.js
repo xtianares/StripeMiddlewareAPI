@@ -1,46 +1,59 @@
 const db = require("../models");
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")(process.env.REACT_APP_STRIPE_SK);
 
 // Defining methods for the snapController
 module.exports = {
   create: (req, res) => {
     const orderData = req.body;
-    const products = orderData.items;
-    let orderTotal = 0;
-    products.forEach(product => {
-      orderTotal = orderTotal + product.price;
-    });
+    const plans = orderData.items;
     orderData.total = Number(Number(orderTotal).toFixed(2));
     orderData.company = req.decoded.company;
 
-    db.Order
-      .create(orderData)
-      .then(async dbOrder => {
-        // try {
-        //   let { status } = await stripe.charges.create({
-        //     amount: 2000,
-        //     currency: "usd",
-        //     description: "An example charge",
-        //     source: req.body
-        //   });
-
-        //   res.json({
-        //     status: "success",
-        //     message: "Order created successfully!!!",
-        //     data: dbOrder,
-        //     stripeStatus: status
-        //   })
-        // } catch (err) {
-        //   console.log(err);
-        //   res.status(500).end();
-        // }
+    // create stripe customer
+    // collect payment info
+    // create subscription in stripe for the customer
+    stripe.customers
+      .create({
+        description: orderData.company,
+        name: "",
+        email: "",
+        phone: "",
+        source: {}, // token created from Elements, collected from CC form https://stripe.com/docs/payments/cards/collecting/web
+        metadata: {}
+      })
+      .then(customer => {
+        return stripe.subscriptions.create({
+          customer: customer.id, // customer ID from the newly created
+          items: [{
+            plan: orderData.planID // need to grab this from the request
+          }]
+        })
+      })
+      // .then(customer => {
+      //   return stripe.customers.createSource(customer.id, {
+      //     source: 'tok_visa',
+      //   })
+      // })
+      .then(subscription => {
         res.json({
           status: "success",
           message: "Order created successfully!!!",
-          data: dbOrder
+          data: subscription
         })
       })
       .catch(err => res.status(422).json(err));
+    
+
+    // db.Order
+    //   .create(orderData)
+    //   .then(dbOrder => {
+    //     res.json({
+    //       status: "success",
+    //       message: "Order created successfully!!!",
+    //       data: dbOrder
+    //     })
+    //   })
+    //   .catch(err => res.status(422).json(err));
   },
   findAll: (req, res) => {
     db.Order
