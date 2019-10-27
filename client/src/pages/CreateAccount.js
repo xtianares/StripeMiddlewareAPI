@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from "react";
+import { Elements, StripeProvider } from 'react-stripe-elements';
+import CheckoutForm from '../components/CheckoutForm';
 import {
   Container,
   Row,
@@ -13,6 +15,8 @@ import {
 import {Helmet} from "react-helmet";
 import API from "../utils/API";
 // import StateDropdown from "../components/StateDropdown";
+
+const stripePK = process.env.REACT_APP_STRIPE_PK || null;
 
 class CreateAccount extends Component {
   state = {
@@ -32,21 +36,31 @@ class CreateAccount extends Component {
     productId: this.props.match.params.productId,
     planId: "",
     productData: {},
-    plansData: []
+    plansData: [],
+    stripe: null
   };
 
   componentDidMount() {
     // console.log("it mounted");
     // const { productId } = this.props.match.params
     API.getProductByID(this.state.productId)
-    .then(response => {
-      // console.log(response.data);
-      this.setState({
-        productData: response.data.productData,
-        plansData: response.data.plansData.data
+      .then(response => {
+        // console.log(response.data);
+        this.setState({
+          productData: response.data.productData,
+          plansData: response.data.plansData.data
+        })
       })
-    })
-    .catch(err => console.log(err));
+      .catch(err => console.log(err));
+
+    if (window.Stripe) {
+      this.setState({ stripe: window.Stripe(stripePK) });
+    } else {
+      document.querySelector('#stripe-js').addEventListener('load', () => {
+        // Create Stripe instance once Stripe.js loads
+        this.setState({ stripe: window.Stripe(stripePK) });
+      });
+    }
   }
 
   handleChange = event => {
@@ -69,19 +83,23 @@ class CreateAccount extends Component {
       companyName,
       password
     })
-    .then(response => {
-      console.log(response.data);
-    })
-    .catch(err => console.log(err));
+      .then(accountData => {
+        console.log(accountData.data);
+        // create CC token after account creation
+        // create order after CC token is created
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
     // console.log(this.state.productData);
     // console.log(this.state.plansData);
     const productName = this.state.productData.name;
-    const plans = this.state.plansData.map((plan) => {
-    const amount = plan.amount / 100;
-    const label = `${plan.nickname} $${amount} ${plan.currency} / ${plan.interval}`;
+    const pproductPlans = this.state.plansData.map((plan) => {
+      const amount = plan.amount / 100,
+            seperator = plan.interval_count > 1 ? "every " + plan.interval_count : "/",
+            interval = plan.interval_count > 1 ? plan.interval + "s" : plan.interval,
+            label = `${plan.nickname} $${amount} ${plan.currency.toUpperCase()} ${seperator} ${interval}`;
       return (
         <CustomInput key={plan.id} id={plan.id} type="radio" name="planId" value={plan.id} label={label} onChange={this.handleChange} />
       )
@@ -90,7 +108,7 @@ class CreateAccount extends Component {
     return (
       <Fragment>
         <Helmet>
-          <title>Assured App Demo</title>
+          <title>Assured Testbed App Demo</title>
           <link rel="canonical" href="https://assured.enterprises" />
         </Helmet>
 
@@ -101,7 +119,7 @@ class CreateAccount extends Component {
                 <h2>Create Account</h2>
                 <p>Please provide the following information for the designated Point of Contact for the company. This will be our primary way of contacting you.</p>
                 <FormGroup className="form-row">
-                  <Label sm={3} className="text-sm-right" for="street1">Conmpany Name</Label>
+                  <Label sm={3} className="text-sm-right" for="street1">Company Name</Label>
                   <Col sm={8}>
                     <Input onChange={this.handleChange} value={this.state.companyName} type="text" name="companyName" id="companyName" data-hj-masked />
                   </Col>
@@ -142,8 +160,15 @@ class CreateAccount extends Component {
                     <Input onChange={this.handleChange} value={this.state.password} type="password" name="password" id="password" data-hj-masked />
                   </Col>
                 </FormGroup>
-                <h3>Select a plan for "{productName}"</h3>
-                {plans}
+                <h3>Select a payment plan for "{productName}"</h3>
+                {pproductPlans}
+
+                <h3>Billing Information</h3>
+                <StripeProvider stripe={this.state.stripe}>
+                  <Elements>
+                    <CheckoutForm />
+                  </Elements>
+                </StripeProvider>
 
                 {/* <h2>Company Mailing Address</h2>
               <p><strong className="text-danger">All mailed correspondence from our office will be sent to the address below.</strong></p>

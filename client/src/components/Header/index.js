@@ -17,7 +17,7 @@ class Header extends Component {
         <Container className="fluid">
           <Row>
             <Col sm="12" id="header">
-              <a className="logo" href="/">Assured App Demo</a>
+              <a className="logo" href="/">Assured Testbed App Demo</a>
             </Col>
           </Row>
         </Container>
