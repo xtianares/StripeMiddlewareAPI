@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
-import { Elements, StripeProvider } from 'react-stripe-elements';
-import CheckoutForm from '../components/CheckoutForm';
+// import { Elements, StripeProvider } from 'react-stripe-elements';
+// import CheckoutForm from '../components/CheckoutForm';
 import {
   Container,
   Row,
@@ -14,9 +14,9 @@ import {
 } from 'reactstrap';
 import {Helmet} from "react-helmet";
 import API from "../utils/API";
-// import StateDropdown from "../components/StateDropdown";
+import StateDropdown from "../components/StateDropdown";
 
-const stripePK = process.env.REACT_APP_STRIPE_PK || null;
+// const stripePK = process.env.REACT_APP_STRIPE_PK || null;
 
 class CreateAccount extends Component {
   state = {
@@ -28,7 +28,7 @@ class CreateAccount extends Component {
     city: "",
     postalCode: "",
     state: "",
-    country: "United States of America",
+    country: "US",
     phone: "",
     email: "",
     validateEmail: "",
@@ -37,7 +37,8 @@ class CreateAccount extends Component {
     planId: "",
     productData: {},
     plansData: [],
-    stripe: null
+    // nameOnCard: "",
+    // stripe: null,
   };
 
   componentDidMount() {
@@ -53,14 +54,14 @@ class CreateAccount extends Component {
       })
       .catch(err => console.log(err));
 
-    if (window.Stripe) {
-      this.setState({ stripe: window.Stripe(stripePK) });
-    } else {
-      document.querySelector('#stripe-js').addEventListener('load', () => {
-        // Create Stripe instance once Stripe.js loads
-        this.setState({ stripe: window.Stripe(stripePK) });
-      });
-    }
+    // if (window.Stripe) {
+    //   this.setState({ stripe: window.Stripe(stripePK) });
+    // } else {
+    //   document.querySelector('#stripe-js').addEventListener('load', () => {
+    //     // Create Stripe instance once Stripe.js loads
+    //     this.setState({ stripe: window.Stripe(stripePK) });
+    //   });
+    // }
   }
 
   handleChange = event => {
@@ -74,14 +75,37 @@ class CreateAccount extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
     // call api here to submit form information
-    const { firstName, lastName, email, phone, companyName, password, productId, planId } = this.state
-    API.createAccount({
+    const {
       firstName,
       lastName,
       email,
       phone,
+      password,
       companyName,
-      password
+      street1,
+      street2,
+      city,
+      postalCode,
+      state,
+      country
+    } = this.state
+    API.createAccount({
+      userData: {
+        firstName,
+        lastName,
+        email,
+        phone,
+        password,
+      },
+      companyData: {
+        name: companyName,
+        street1,
+        street2,
+        city,
+        postalCode,
+        state,
+        country,
+      }
     })
       .then(accountData => {
         console.log(accountData.data);
@@ -95,15 +119,15 @@ class CreateAccount extends Component {
     // console.log(this.state.productData);
     // console.log(this.state.plansData);
     const productName = this.state.productData.name;
-    const pproductPlans = this.state.plansData.map((plan) => {
-      const amount = plan.amount / 100,
-            seperator = plan.interval_count > 1 ? "every " + plan.interval_count : "/",
-            interval = plan.interval_count > 1 ? plan.interval + "s" : plan.interval,
-            label = `${plan.nickname} $${amount} ${plan.currency.toUpperCase()} ${seperator} ${interval}`;
-      return (
-        <CustomInput key={plan.id} id={plan.id} type="radio" name="planId" value={plan.id} label={label} onChange={this.handleChange} />
-      )
-    })
+    // const productPlans = this.state.plansData.map((plan) => {
+    //   const amount = plan.amount / 100,
+    //         seperator = plan.interval_count > 1 ? "every " + plan.interval_count : "/",
+    //         interval = plan.interval_count > 1 ? plan.interval + "s" : plan.interval,
+    //         label = `${plan.nickname} $${amount} ${plan.currency.toUpperCase()} ${seperator} ${interval}`;
+    //   return (
+    //     <CustomInput key={plan.id} id={plan.id} type="radio" name="planId" value={plan.id} label={label} onChange={this.handleChange} />
+    //   )
+    // })
 
     return (
       <Fragment>
@@ -118,12 +142,12 @@ class CreateAccount extends Component {
               <Form onSubmit={this.handleFormSubmit}>
                 <h2>Create Account</h2>
                 <p>Please provide the following information for the designated Point of Contact for the company. This will be our primary way of contacting you.</p>
-                <FormGroup className="form-row">
+                {/* <FormGroup className="form-row">
                   <Label sm={3} className="text-sm-right" for="street1">Company Name</Label>
                   <Col sm={8}>
                     <Input onChange={this.handleChange} value={this.state.companyName} type="text" name="companyName" id="companyName" data-hj-masked />
                   </Col>
-                </FormGroup>
+                </FormGroup> */}
                 <FormGroup className="form-row">
                   <Label sm={3} className="text-sm-right" for="firstname">First Name</Label>
                   <Col sm={8}>
@@ -160,54 +184,55 @@ class CreateAccount extends Component {
                     <Input onChange={this.handleChange} value={this.state.password} type="password" name="password" id="password" data-hj-masked />
                   </Col>
                 </FormGroup>
-                <h3>Select a payment plan for "{productName}"</h3>
-                {pproductPlans}
+
+                <h2>Company Mailing Address</h2>
+                <p><strong className="text-danger">All mailed correspondence (if any) from our office will be sent to the address below.</strong></p>
+                <FormGroup className="form-row">
+                  <Label sm={3} className="text-sm-right" for="street1">Company Name</Label>
+                  <Col sm={8}>
+                    <Input onChange={this.handleChange} value={this.state.companyName} type="text" name="companyName" id="companyName" data-hj-masked />
+                  </Col>
+                </FormGroup>
+                <FormGroup className="form-row">
+                  <Label sm={3} className="text-sm-right" for="street1">Address</Label>
+                  <Col sm={8}>
+                    <Input onChange={this.handleChange} value={this.state.street1} type="text" name="street1" id="street1" data-hj-masked />
+                  </Col>
+                </FormGroup>
+                <FormGroup className="form-row">
+                  <Label sm={3} className="text-sm-right" for="street2">Suite. Apt. #, etc.</Label>
+                  <Col sm={8}>
+                    <Input onChange={this.handleChange} value={this.state.street2} type="text" name="street2" id="street2" data-hj-masked />
+                  </Col>
+                </FormGroup>
+                <FormGroup className="form-row">
+                  <Label sm={3} className="text-sm-right" for="city">City</Label>
+                  <Col sm={8}>
+                    <Input onChange={this.handleChange} value={this.state.city} type="text" name="city" id="city" data-hj-masked />
+                  </Col>
+                </FormGroup>
+                <FormGroup className="form-row">
+                  <Label sm={3} className="text-sm-right" for="state">State</Label>
+                  <Col sm={8}>
+                    <StateDropdown onChange={this.handleChange} value={this.state.state} name="state" id="state" data-hj-masked />
+                  </Col>
+                </FormGroup>
+                <FormGroup className="form-row">
+                  <Label sm={3} className="text-sm-right" for="postalCode">Zip Code</Label>
+                  <Col sm={8}>
+                    <Input onChange={this.handleChange} value={this.state.postalCode} type="text" name="postalCode" id="postalCode" data-hj-masked />
+                  </Col>
+                </FormGroup>
+
+                {/* <h3>Select a payment plan for "{productName}"</h3>
+                {productPlans}
 
                 <h3>Billing Information</h3>
                 <StripeProvider stripe={this.state.stripe}>
                   <Elements>
                     <CheckoutForm />
                   </Elements>
-                </StripeProvider>
-
-                {/* <h2>Company Mailing Address</h2>
-              <p><strong className="text-danger">All mailed correspondence from our office will be sent to the address below.</strong></p>
-              <FormGroup className="form-row">
-                <Label sm={3} className="text-sm-right" for="street1">Conmpany Name</Label>
-                <Col sm={8}>
-                  <Input onChange={this.handleChange} value={this.state.companyName} type="text" name="companyName" id="companyName" data-hj-masked />
-                </Col>
-              </FormGroup>
-              <FormGroup className="form-row">
-                <Label sm={3} className="text-sm-right" for="street1">Address</Label>
-                <Col sm={8}>
-                  <Input onChange={this.handleChange} value={this.state.street1} type="text" name="street1" id="street1" data-hj-masked />
-                </Col>
-              </FormGroup>
-              <FormGroup className="form-row">
-                <Label sm={3} className="text-sm-right" for="street2">Suite. Apt. #, etc.</Label>
-                <Col sm={8}>
-                  <Input onChange={this.handleChange} value={this.state.street2} type="text" name="street2" id="street2" data-hj-masked />
-                </Col>
-              </FormGroup>
-              <FormGroup className="form-row">
-                <Label sm={3} className="text-sm-right" for="city">City</Label>
-                <Col sm={8}>
-                  <Input onChange={this.handleChange} value={this.state.city} type="text" name="city" id="city" data-hj-masked />
-                </Col>
-              </FormGroup>
-              <FormGroup className="form-row">
-                <Label sm={3} className="text-sm-right" for="state">State</Label>
-                <Col sm={8}>
-                  <StateDropdown onChange={this.handleChange} value={this.state.state} name="state" id="state" data-hj-masked />
-                </Col>
-              </FormGroup>
-              <FormGroup className="form-row">
-                <Label sm={3} className="text-sm-right" for="postalCode">Zip Code</Label>
-                <Col sm={8}>
-                  <Input onChange={this.handleChange} value={this.state.postalCode} type="text" name="postalCode" id="postalCode" data-hj-masked />
-                </Col>
-              </FormGroup> */}
+                </StripeProvider> */}
 
                 <FormGroup className="form-row form-nav justify-content-end">
                   <Button className="app-btn next-btn" color="success" size="lg" type="submit">Checkout <i className="material-icons">arrow_forward</i></Button>

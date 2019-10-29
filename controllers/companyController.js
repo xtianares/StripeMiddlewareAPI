@@ -7,14 +7,10 @@ const saltRounds = 10;
 module.exports = {
   create: (req, res) => {
     // console.log(req.body);
-    const userData = req.body;
-    const companyData = {
-      name: userData.companyName
-    }
+    const { userData, companyData } = req.body;
     if (userData.password) {
       userData.password = bcrypt.hashSync(userData.password, saltRounds);
     }
-    delete userData.companyName;
     delete userData.role;
     // new account, creates the company
     db.Company

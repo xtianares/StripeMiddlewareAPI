@@ -5,6 +5,7 @@ import {
   FormGroup,
   Label,
   Input,
+  Button,
 } from 'reactstrap';
 import {
   CardNumberElement,
@@ -62,14 +63,19 @@ class CheckoutForm extends Component {
       [name]: theValue
     });
   }
-  handleSubmit = (ev) => {
+  handleFormSubmit = (ev) => {
     ev.preventDefault();
     if (this.props.stripe) {
       this.props.stripe
         .createToken({ name: this.state.nameOnCard })
         .then((payload) => console.log('[token]', payload));
       this.props.stripe
-        .createSource({ type: "card" })
+        .createSource({
+          type: 'card',
+          owner: {
+            name: this.state.nameOnCard,
+          },
+        })
         .then((payload) => console.log('[source]', payload));
     } else {
       console.log("Stripe.js hasn't loaded yet.");
@@ -77,7 +83,7 @@ class CheckoutForm extends Component {
   };
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleFormSubmit}>
         <FormGroup className="form-row">
           <Label sm={3} className="text-sm-right" for="nameOnCard">Name on Card</Label>
           <Col sm={8}>
@@ -120,7 +126,10 @@ class CheckoutForm extends Component {
             />
           </Col>
         </FormGroup>
-        <button>Pay</button>
+
+        <FormGroup className="form-row form-nav justify-content-end">
+          <Button className="app-btn next-btn" color="success" size="lg" type="submit">Checkout <i className="material-icons">arrow_forward</i></Button>
+        </FormGroup>
       </Form>
     );
   }
