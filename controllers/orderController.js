@@ -1,49 +1,56 @@
 const db = require("../models");
-const stripe = require("stripe")(process.env.REACT_APP_STRIPE_SK);
+const stripeSK = process.env.REACT_APP_STRIPE_SK || process.env.REACT_APP_STRIPE_SK_TEST;
+const stripe = require("stripe")(stripeSK);
 
 // Defining methods for the snapController
 module.exports = {
   create: (req, res) => {
-    const orderData = req.body;
-    const plans = orderData.items;
-    orderData.total = Number(Number(orderTotal).toFixed(2));
-    orderData.company = req.decoded.company;
-
+    const { planId, sourceData } = req.body;
     // create stripe customer
     // collect payment info
     // create subscription in stripe for the customer
-    stripe.customers
-      .create({
-        description: orderData.company,
-        name: "",
-        email: "",
-        phone: "",
-        source: {}, // token created from Elements, collected from CC form https://stripe.com/docs/payments/cards/collecting/web
-        metadata: {}
+    db.User.findById(req.decoded.id)
+      .populate({
+        path: "company",
       })
+      .then(userInfo => {
+        console.log(userInfo.company)
+        return stripe.customers
+          .create({
+            name: userInfo.company.name,
+            // name: userInfo.firstName + " " + userInfo.lastName,
+            email: userInfo.email,
+            phone: userInfo.phone,
+            source: sourceData.id, // token created from Elements, collected from CC form https://stripe.com/docs/payments/cards/collecting/web
+            metadata: {}
+          })
+      })
+      // .then(customer => {
+      //   return stripe.customers.update(customer.id, {
+      //     source: sourceToken,
+      //   })
+      //   // stripe.customers.createSource(customer.id, {
+      //   //   source: 'src_18eYalAHEMiOZZp1l9ZTjSU0',
+      //   //   source: 'tok_visa',
+      //   // });
+      // })
       .then(customer => {
         return stripe.subscriptions.create({
           customer: customer.id, // customer ID from the newly created
           items: [{
-            plan: orderData.planID // need to grab this from the request
+            plan: planId // need to grab this from the request
           }]
         })
       })
-      // .then(customer => {
-      //   return stripe.customers.createSource(customer.id, {
-      //     source: 'tok_visa',
-      //   })
-      // })
       .then(subscription => {
         res.json({
           status: "success",
-          message: "Order created successfully!!!",
+          message: "Subscription created successfully!!!",
           data: subscription
         })
       })
       .catch(err => res.status(422).json(err));
     
-
     // db.Order
     //   .create(orderData)
     //   .then(dbOrder => {

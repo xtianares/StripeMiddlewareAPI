@@ -37,8 +37,6 @@ class CreateAccount extends Component {
     planId: "",
     productData: {},
     plansData: [],
-    // nameOnCard: "",
-    // stripe: null,
   };
 
   componentDidMount() {
@@ -53,15 +51,6 @@ class CreateAccount extends Component {
         })
       })
       .catch(err => console.log(err));
-
-    // if (window.Stripe) {
-    //   this.setState({ stripe: window.Stripe(stripePK) });
-    // } else {
-    //   document.querySelector('#stripe-js').addEventListener('load', () => {
-    //     // Create Stripe instance once Stripe.js loads
-    //     this.setState({ stripe: window.Stripe(stripePK) });
-    //   });
-    // }
   }
 
   handleChange = event => {
@@ -109,26 +98,14 @@ class CreateAccount extends Component {
     })
       .then(accountData => {
         console.log(accountData.data);
-        // create CC token after account creation
-        // create order after CC token is created
+        if (accountData.data.status === "success") {
+          this.props.history.push("/billing-information/" + this.state.productId);
+        }
       })
       .catch(err => console.log(err));
   }
 
   render() {
-    // console.log(this.state.productData);
-    // console.log(this.state.plansData);
-    const productName = this.state.productData.name;
-    // const productPlans = this.state.plansData.map((plan) => {
-    //   const amount = plan.amount / 100,
-    //         seperator = plan.interval_count > 1 ? "every " + plan.interval_count : "/",
-    //         interval = plan.interval_count > 1 ? plan.interval + "s" : plan.interval,
-    //         label = `${plan.nickname} $${amount} ${plan.currency.toUpperCase()} ${seperator} ${interval}`;
-    //   return (
-    //     <CustomInput key={plan.id} id={plan.id} type="radio" name="planId" value={plan.id} label={label} onChange={this.handleChange} />
-    //   )
-    // })
-
     return (
       <Fragment>
         <Helmet>
@@ -224,18 +201,8 @@ class CreateAccount extends Component {
                   </Col>
                 </FormGroup>
 
-                {/* <h3>Select a payment plan for "{productName}"</h3>
-                {productPlans}
-
-                <h3>Billing Information</h3>
-                <StripeProvider stripe={this.state.stripe}>
-                  <Elements>
-                    <CheckoutForm />
-                  </Elements>
-                </StripeProvider> */}
-
                 <FormGroup className="form-row form-nav justify-content-end">
-                  <Button className="app-btn next-btn" color="success" size="lg" type="submit">Checkout <i className="material-icons">arrow_forward</i></Button>
+                  <Button className="app-btn next-btn" color="success" size="lg" type="submit">Continue <i className="material-icons">arrow_forward</i></Button>
                 </FormGroup>
               </Form>
             </Col>

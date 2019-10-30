@@ -5,36 +5,17 @@ import {
   Container,
   Row,
   Col,
-  Form,
-  FormGroup,
   CustomInput,
-  Label,
-  Input,
-  Button
 } from 'reactstrap';
 import {Helmet} from "react-helmet";
 import API from "../utils/API";
-import StateDropdown from "../components/StateDropdown";
 
-const stripePK = process.env.REACT_APP_STRIPE_PK || null;
+const stripePK = process.env.REACT_APP_STRIPE_PK || process.env.REACT_APP_STRIPE_PK_TEST;
 
 class CreateAccount extends Component {
   state = {
-    firstName: "",
-    lastName: "",
-    companyName: "",
-    street1: "",
-    street2: "",
-    city: "",
-    postalCode: "",
-    state: "",
-    country: "United States of America",
-    phone: "",
-    email: "",
-    validateEmail: "",
-    password: "",
     productId: this.props.match.params.productId,
-    planId: "",
+    planId: "567",
     productData: {},
     plansData: [],
     stripe: null
@@ -74,14 +55,10 @@ class CreateAccount extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
     // call api here to submit form information
-    const { firstName, lastName, email, phone, companyName, password, productId, planId } = this.state
+    const { productId, planId } = this.state;
     API.createAccount({
-      firstName,
-      lastName,
-      email,
-      phone,
-      companyName,
-      password
+      productId,
+      planId,
     })
       .then(accountData => {
         console.log(accountData.data);
@@ -115,17 +92,17 @@ class CreateAccount extends Component {
         <Container>
           <Row className="justify-content-center">
             <Col lg="8" md="12" sm="12">
-              <>
+              <Fragment>
                 <h3>Select a payment plan for "{productName}"</h3>
                 {productPlans}
 
                 <h3>Billing Information</h3>
                 <StripeProvider stripe={this.state.stripe}>
                   <Elements>
-                    <CheckoutForm />
+                    <CheckoutForm productId={this.state.productId} planId={this.state.planId} />
                   </Elements>
                 </StripeProvider>
-              </>
+              </Fragment>
             </Col>
           </Row>
         </Container>

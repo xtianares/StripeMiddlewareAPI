@@ -5,6 +5,8 @@ import {
   Col
 } from 'reactstrap';
 import "./style.scss";
+import Navbar from "./Nav";
+
 
 class Header extends Component {
   state = {
@@ -14,6 +16,7 @@ class Header extends Component {
   render() {
     return (
       <section id="header_wrap" className="wrap clearfix">
+        <Navbar />
         <Container className="fluid">
           <Row>
             <Col sm="12" id="header">

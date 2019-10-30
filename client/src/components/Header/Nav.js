@@ -9,9 +9,6 @@ import {
   NavLink
 } from 'reactstrap';
 
-import logo from "../assets/images/florida-incorporation-service-logo.png";
-
-
 class Navigation extends Component {
   constructor(props) {
     super(props);
@@ -29,21 +26,17 @@ class Navigation extends Component {
   render() {
     return (
       <Navbar color="dark" light expand="md">
-        <NavbarBrand href="https://www.floridaincorporationservice.com/">
-          <img
-            src={logo}
-            className="d-inline-block align-top"
-            alt="Florida Incorporation Service"
-          />
+        <NavbarBrand href="/">
+          Assured Testbed App Demo
         </NavbarBrand>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink href="/components/">Components</NavLink>
+              <NavLink href="/login/">Login</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
+              <NavLink href="/logout/">Logout</NavLink>
             </NavItem>
           </Nav>
         </Collapse>

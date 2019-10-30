@@ -49,9 +49,18 @@ module.exports = {
   findById: (req, res) => {
     db.User
       .findById(req.params.id)
-      .populate("orders")
-      .populate("assessments")
-      .populate("results")
+      .populate({
+        path: "company",
+        // select: "_id total createdAt",
+        populate: {
+          path: "orders",
+          select: "_id total items paid createdAt",
+          populate: {
+            path: "items.product",
+            select: "_id name description price thumbnail",
+          }
+        }
+      })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

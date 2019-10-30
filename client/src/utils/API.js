@@ -5,6 +5,9 @@ export default {
   createAccount: (accountData) => {
     return axios.post("/api/account/create", accountData);
   },
+  createOrder: (orderData) => {
+    return axios.post("/api/order/create", orderData);
+  },
   // get account info based of account ID
   getAccountByID: (id) => {
     return axios.get("/api/account/" + id);

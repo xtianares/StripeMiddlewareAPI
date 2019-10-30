@@ -1,5 +1,5 @@
 const db = require("../models");
-const stripe = require("stripe")(process.env.REACT_APP_STRIPE_SK);
+const stripe = require("stripe")(process.env.REACT_APP_STRIPE_SK || process.env.REACT_APP_STRIPE_SK_TEST);
 
 // Defining methods for the snapController
 module.exports = {

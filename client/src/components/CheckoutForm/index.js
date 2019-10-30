@@ -13,7 +13,7 @@ import {
   CardCVCElement,
   injectStripe,
 } from 'react-stripe-elements';
-import "./style.scss";
+import API from "../../utils/API";
 
 const handleBlur = (en) => {
   console.log('[blur]', en);
@@ -55,7 +55,16 @@ class CheckoutForm extends Component {
   state = {
     fontSize: "16px",
     nameOnCard: "",
+    productId: this.props.productId,
+    planId: this.props.planId,
   }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.planId !== this.props.planId) {
+      this.setState({ planId: this.props.planId });
+    }
+  }
+
   handleChange = event => {
     const { name, value, type, checked } = event.target;
     const theValue = type === 'checkbox' ? checked : value;
@@ -63,12 +72,13 @@ class CheckoutForm extends Component {
       [name]: theValue
     });
   }
+
   handleFormSubmit = (ev) => {
     ev.preventDefault();
     if (this.props.stripe) {
-      this.props.stripe
-        .createToken({ name: this.state.nameOnCard })
-        .then((payload) => console.log('[token]', payload));
+      // this.props.stripe
+      //   .createToken({ name: this.state.nameOnCard })
+      //   .then((payload) => console.log('[token]', payload));
       this.props.stripe
         .createSource({
           type: 'card',
@@ -76,7 +86,19 @@ class CheckoutForm extends Component {
             name: this.state.nameOnCard,
           },
         })
-        .then((payload) => console.log('[source]', payload));
+        .then((payload) => {
+          // call api to create subscription
+          console.log('[source]', payload.source)
+          const orderData = {
+            planId: this.state.planId,
+            sourceData: payload.source
+          }
+          API.createOrder(orderData)
+            .then(response => {
+              console.log(response.data);
+            })
+            .catch(err => console.log(err));
+        });
     } else {
       console.log("Stripe.js hasn't loaded yet.");
     }
