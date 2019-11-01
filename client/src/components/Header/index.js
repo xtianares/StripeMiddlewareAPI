@@ -17,13 +17,6 @@ class Header extends Component {
     return (
       <section id="header_wrap" className="wrap clearfix">
         <Navbar />
-        <Container className="fluid">
-          <Row>
-            <Col sm="12" id="header">
-              <a className="logo" href="/">Assured Testbed App Demo</a>
-            </Col>
-          </Row>
-        </Container>
       </section>
     );
   }

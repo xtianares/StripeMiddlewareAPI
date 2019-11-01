@@ -11,35 +11,37 @@ module.exports = {
     // create subscription in stripe for the customer
     db.User.findById(req.decoded.id)
       .populate({
-        path: "company",
+        path: "company"
       })
       .then(userInfo => {
-        console.log(userInfo.company)
+        // console.log(userInfo.company.id)
         return stripe.customers
           .create({
             name: userInfo.company.name,
-            // name: userInfo.firstName + " " + userInfo.lastName,
             email: userInfo.email,
             phone: userInfo.phone,
-            source: sourceData.id, // token created from Elements, collected from CC form https://stripe.com/docs/payments/cards/collecting/web
-            metadata: {}
+            source: sourceData.id, // token created from Elements
+            metadata: {
+              companyId: userInfo.company.id,
+            }
           })
       })
-      // .then(customer => {
-      //   return stripe.customers.update(customer.id, {
-      //     source: sourceToken,
-      //   })
-      //   // stripe.customers.createSource(customer.id, {
-      //   //   source: 'src_18eYalAHEMiOZZp1l9ZTjSU0',
-      //   //   source: 'tok_visa',
-      //   // });
-      // })
       .then(customer => {
+        // console.log(customer);
+        return db.Company.findByIdAndUpdate(customer.metadata.companyId, { 
+          stripe: { customerId: customer.id } 
+        }, { new: true })
+      })
+      .then(company => {
+        // console.log(company);
         return stripe.subscriptions.create({
-          customer: customer.id, // customer ID from the newly created
+          customer: company.stripe.customerId, // customer ID from the newly created
           items: [{
             plan: planId // need to grab this from the request
-          }]
+          }],
+          metadata: {
+            companyId: company.id,
+          }
         })
       })
       .then(subscription => {
@@ -50,17 +52,6 @@ module.exports = {
         })
       })
       .catch(err => res.status(422).json(err));
-    
-    // db.Order
-    //   .create(orderData)
-    //   .then(dbOrder => {
-    //     res.json({
-    //       status: "success",
-    //       message: "Order created successfully!!!",
-    //       data: dbOrder
-    //     })
-    //   })
-    //   .catch(err => res.status(422).json(err));
   },
   findAll: (req, res) => {
     db.Order

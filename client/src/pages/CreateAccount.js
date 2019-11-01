@@ -1,6 +1,4 @@
 import React, { Component, Fragment } from "react";
-// import { Elements, StripeProvider } from 'react-stripe-elements';
-// import CheckoutForm from '../components/CheckoutForm';
 import {
   Container,
   Row,
@@ -15,8 +13,6 @@ import {
 import {Helmet} from "react-helmet";
 import API from "../utils/API";
 import StateDropdown from "../components/StateDropdown";
-
-// const stripePK = process.env.REACT_APP_STRIPE_PK || null;
 
 class CreateAccount extends Component {
   state = {
@@ -162,7 +158,7 @@ class CreateAccount extends Component {
                   </Col>
                 </FormGroup>
 
-                <h2>Company Mailing Address</h2>
+                <h2>Company Information</h2>
                 <p><strong className="text-danger">All mailed correspondence (if any) from our office will be sent to the address below.</strong></p>
                 <FormGroup className="form-row">
                   <Label sm={3} className="text-sm-right" for="street1">Company Name</Label>

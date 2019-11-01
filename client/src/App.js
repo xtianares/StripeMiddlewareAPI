@@ -17,6 +17,7 @@ class App extends Component {
         <main>
           <Switch>
             <Route exact path="/" component={CreateAccount} />
+            <Route exact path="/create-account/" component={CreateAccount} />
             <Route exact path="/create-account/:productId" component={CreateAccount} />
             <Route exact path="/billing-information/:productId" component={BillingInformation} />
             <Route component={NoMatch} />

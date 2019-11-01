@@ -25,7 +25,7 @@ class Navigation extends Component {
   }
   render() {
     return (
-      <Navbar color="dark" light expand="md">
+      <Navbar color="dark" dark expand="md">
         <NavbarBrand href="/">
           Assured Testbed App Demo
         </NavbarBrand>

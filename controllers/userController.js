@@ -34,7 +34,7 @@ module.exports = {
           message: "User created and login successfully!!!",
           data: {
             user: userInfo,
-            token: token
+            // token: token
           }
         });
       })

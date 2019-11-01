@@ -15,7 +15,7 @@ const stripePK = process.env.REACT_APP_STRIPE_PK || process.env.REACT_APP_STRIPE
 class CreateAccount extends Component {
   state = {
     productId: this.props.match.params.productId,
-    planId: "567",
+    planId: "",
     productData: {},
     plansData: [],
     stripe: null
@@ -50,22 +50,6 @@ class CreateAccount extends Component {
     this.setState({
       [name]: theValue
     });
-  }
-
-  handleFormSubmit = event => {
-    event.preventDefault();
-    // call api here to submit form information
-    const { productId, planId } = this.state;
-    API.createAccount({
-      productId,
-      planId,
-    })
-      .then(accountData => {
-        console.log(accountData.data);
-        // create CC token after account creation
-        // create order after CC token is created
-      })
-      .catch(err => console.log(err));
   }
 
   render() {
