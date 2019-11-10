@@ -76,17 +76,15 @@ class CreateAccount extends Component {
         <Container>
           <Row className="justify-content-center">
             <Col lg="8" md="12" sm="12">
-              <Fragment>
-                <h3>Select a payment plan for "{productName}"</h3>
-                {productPlans}
+              <h3>Select a payment plan for "{productName}"</h3>
+              {productPlans}
 
-                <h3>Billing Information</h3>
-                <StripeProvider stripe={this.state.stripe}>
-                  <Elements>
-                    <CheckoutForm productId={this.state.productId} planId={this.state.planId} />
-                  </Elements>
-                </StripeProvider>
-              </Fragment>
+              <h3>Billing Information</h3>
+              <StripeProvider stripe={this.state.stripe}>
+                <Elements>
+                  <CheckoutForm productId={this.state.productId} planId={this.state.planId} history={this.props.history} />
+                </Elements>
+              </StripeProvider>
             </Col>
           </Row>
         </Container>

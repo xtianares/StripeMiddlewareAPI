@@ -88,7 +88,7 @@ class CheckoutForm extends Component {
         })
         .then((payload) => {
           // call api to create subscription
-          console.log('[source]', payload.source)
+          // console.log('[source]', payload.source)
           const orderData = {
             planId: this.state.planId,
             sourceData: payload.source
@@ -96,6 +96,22 @@ class CheckoutForm extends Component {
           API.createOrder(orderData)
             .then(response => {
               console.log(response.data);
+              // need to save invoice and charge n local storage
+              API.getReceipt(response.data.data.latest_invoice)
+                .then(receiptData => {
+                  console.log(receiptData.data);
+                  localStorage.setItem("receiptInvoice", JSON.stringify(receiptData.data.invoice))
+                  localStorage.setItem("receiptCharge", JSON.stringify(receiptData.data.charge))
+                  if (receiptData.data.status === "success") {
+                    this.props.history.push("/receipt/" + this.state.productId);
+                  }
+                })
+                // .then (() => {
+                //   if (response.data.status === "success") {
+                //     this.props.history.push("/receipt/" + this.state.productId);
+                //   }
+                // })
+                .catch(err => console.log(err));
             })
             .catch(err => console.log(err));
         });

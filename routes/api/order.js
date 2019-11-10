@@ -6,6 +6,9 @@ const { isAuthenticated, isAuthorized } = require('../../utils/auth');
 router.route("/create")
   .post(isAuthenticated, orderController.create);
 
+router.route("/invoice/:id")
+  .get(isAuthenticated, orderController.findInvoice);
+
 // user login
 router.route("/all")
   .get(isAuthenticated, isAuthorized, orderController.findAll);

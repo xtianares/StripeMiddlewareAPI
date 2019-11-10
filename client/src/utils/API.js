@@ -8,6 +8,9 @@ export default {
   createOrder: (orderData) => {
     return axios.post("/api/order/create", orderData);
   },
+  getReceipt: (id) => {
+    return axios.get("/api/order/invoice/" + id);
+  },
   // get account info based of account ID
   getAccountByID: (id) => {
     return axios.get("/api/account/" + id);

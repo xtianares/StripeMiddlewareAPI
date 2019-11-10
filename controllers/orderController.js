@@ -53,6 +53,26 @@ module.exports = {
       })
       .catch(err => res.status(422).json(err));
   },
+  findInvoice: (req, res) => {
+    console.log(req.params.id);
+    // const { invoiceId } = req.body;
+    let receiptData = {};
+    stripe.invoices.retrieve(
+      req.params.id
+    )
+    .then(invoiceData => {
+      receiptData.invoice = invoiceData;
+      // console.log(company);
+      return stripe.charges.retrieve(
+        invoiceData.charge
+      )
+    })
+    .then(chargeData => {
+      receiptData.charge = chargeData;
+      receiptData.status = "success";
+      res.json(receiptData)
+    })
+  },
   findAll: (req, res) => {
     db.Order
       .find(req.query)
