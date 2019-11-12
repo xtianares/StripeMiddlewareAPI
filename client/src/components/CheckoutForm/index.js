@@ -6,6 +6,7 @@ import {
   Label,
   Input,
   Button,
+  Spinner,
 } from 'reactstrap';
 import {
   CardNumberElement,
@@ -57,6 +58,7 @@ class CheckoutForm extends Component {
     nameOnCard: "",
     productId: this.props.productId,
     planId: this.props.planId,
+    processing: false
   }
 
   componentDidUpdate(prevProps) {
@@ -76,6 +78,7 @@ class CheckoutForm extends Component {
   handleFormSubmit = (ev) => {
     ev.preventDefault();
     if (this.props.stripe) {
+      this.setState({ processing: true });
       // this.props.stripe
       //   .createToken({ name: this.state.nameOnCard })
       //   .then((payload) => console.log('[token]', payload));
@@ -166,7 +169,10 @@ class CheckoutForm extends Component {
         </FormGroup>
 
         <FormGroup className="form-row form-nav justify-content-end">
-          <Button className="app-btn next-btn" color="success" size="lg" type="submit">Checkout <i className="material-icons">arrow_forward</i></Button>
+          <Button className="app-btn next-btn" color="success" size="lg" type="submit">
+            {this.state.processing ? <Spinner size="sm" color="light" /> : null}
+            Checkout <i className="material-icons">arrow_forward</i>
+          </Button>
         </FormGroup>
       </Form>
     );

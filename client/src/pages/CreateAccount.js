@@ -8,7 +8,8 @@ import {
   CustomInput,
   Label,
   Input,
-  Button
+  Button,
+  Spinner
 } from 'reactstrap';
 import {Helmet} from "react-helmet";
 import API from "../utils/API";
@@ -33,6 +34,7 @@ class CreateAccount extends Component {
     planId: "",
     productData: {},
     plansData: [],
+    processing: false
   };
 
   componentDidMount() {
@@ -59,7 +61,7 @@ class CreateAccount extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    // call api here to submit form information
+    this.setState({ processing: true });
     const {
       firstName,
       lastName,
@@ -198,7 +200,10 @@ class CreateAccount extends Component {
                 </FormGroup>
 
                 <FormGroup className="form-row form-nav justify-content-end">
-                  <Button className="app-btn next-btn" color="success" size="lg" type="submit">Continue <i className="material-icons">arrow_forward</i></Button>
+                  <Button className="app-btn next-btn" color="success" size="lg" type="submit">
+                    {this.state.processing ? <Spinner size="sm" color="light" /> : null}
+                    Continue <i className="material-icons">arrow_forward</i>
+                  </Button>
                 </FormGroup>
               </Form>
             </Col>

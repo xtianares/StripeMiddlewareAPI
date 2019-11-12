@@ -29,7 +29,7 @@ class Receipt extends Component {
     var year = a.getFullYear();
     var month = months[a.getMonth()];
     var date = a.getDate();
-    var theDate = month + ' ' + date + ' ' +  year;
+    var theDate = month + '. ' + date + ', ' +  year;
     return theDate;
   }
 
