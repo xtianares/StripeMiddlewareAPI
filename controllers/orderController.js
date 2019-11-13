@@ -6,6 +6,7 @@ const stripe = require("stripe")(stripeSK);
 module.exports = {
   create: (req, res) => {
     const { planId, sourceData } = req.body;
+    const stripeData = {};
     // create stripe customer
     // collect payment info
     // create subscription in stripe for the customer
@@ -15,8 +16,7 @@ module.exports = {
       })
       .then(userInfo => {
         // console.log(userInfo.company.id)
-        return stripe.customers
-          .create({
+        return stripe.customers.create({
             name: userInfo.company.name,
             email: userInfo.email,
             phone: userInfo.phone,
@@ -28,6 +28,8 @@ module.exports = {
       })
       .then(customer => {
         // console.log(customer);
+        stripeData.customerId = customer.id;
+        stripeData.metadata = customer.metadata;
         return db.Company.findByIdAndUpdate(customer.metadata.companyId, { 
           stripe: { customerId: customer.id } 
         }, { new: true })
@@ -44,6 +46,12 @@ module.exports = {
           }
         })
       })
+      // .then(subscription => {
+      //   // console.log(customer);
+      //   return db.Company.findByIdAndUpdate(stripeData.metadata.companyId, {
+      //     stripe: { customerId: stripeData.customerId }
+      //   }, { new: true })
+      // })
       .then(subscription => {
         res.json({
           status: "success",

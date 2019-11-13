@@ -2,9 +2,15 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const AssessmentSchema = new Schema ({
-  product: {
+  // product: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Product"
+  // },
+  name: {
     type: Schema.Types.ObjectId,
-    ref: "Product"
+    ref: "Company",
+    required: true,
+    unique: true
   },
   questions: [{ 
     type: String, 

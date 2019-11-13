@@ -6,13 +6,13 @@ const resultSchema = new Schema ({
     type: Schema.Types.ObjectId,
     ref: "Company"
   },
-  order: {
+  // order: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Order"
+  // },
+  assessment: {
     type: Schema.Types.ObjectId,
-    ref: "Order"
-  },
-  product: {
-    type: Schema.Types.ObjectId,
-    ref: "Product"
+    ref: "Assessment"
   }
 }, { timestamps: true });
 

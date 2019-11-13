@@ -27,7 +27,7 @@ const OrderSchema = new Schema ({
     orderId: { type: String, trim: true },
     subscriptionId: { type: String, trim: true },
   },
-  paid: { type: Boolean, default: false }
+  // paid: { type: Boolean, default: false }
 }, { timestamps: true });
 
 // OrderSchema.pre('save', function (next) {

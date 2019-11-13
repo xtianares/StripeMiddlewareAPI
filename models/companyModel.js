@@ -20,14 +20,14 @@ const CompanySchema = new Schema ({
   }
 }, { timestamps: true });
 
-CompanySchema.virtual('orders', {
-  ref: 'Order',
-  localField: '_id',
-  foreignField: 'company',
-});
+// CompanySchema.virtual('orders', {
+//   ref: 'Order',
+//   localField: '_id',
+//   foreignField: 'company',
+// });
 
-CompanySchema.set('toObject', { virtuals: true });
-CompanySchema.set('toJSON', { virtuals: true });
+// CompanySchema.set('toObject', { virtuals: true });
+// CompanySchema.set('toJSON', { virtuals: true });
 
 const Company = mongoose.model("Company", CompanySchema);
 
