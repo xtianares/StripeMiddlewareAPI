@@ -8,7 +8,7 @@ router.route("/create")
 
 // user login
 router.route("/login")
-  .get(userController.login);
+  .post(userController.login);
 
 // user logout, deletes cookies
 router.route("/logout")

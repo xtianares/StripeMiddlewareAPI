@@ -25,8 +25,14 @@ export default {
   getProductByID: (id) => {
     return axios.get("/api/product/" + id);
   },
+  getAssessmentByID: (id) => {
+    return axios.get("/api/assessment/" + id);
+  },
+  getResultByID: (id) => {
+    return axios.get("/api/result/" + id);
+  },
   login: (accountData) => {
-    return axios.get("/api/user/login", accountData);
+    return axios.post("/api/user/login", accountData);
   },
 
 };

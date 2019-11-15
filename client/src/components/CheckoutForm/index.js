@@ -102,6 +102,7 @@ class CheckoutForm extends Component {
               // need to save invoice and charge n local storage
               API.getReceipt(response.data.data.latest_invoice)
                 .then(receiptData => {
+                  this.setState({ processing: false });
                   console.log(receiptData.data);
                   localStorage.setItem("receiptInvoice", JSON.stringify(receiptData.data.invoice))
                   localStorage.setItem("receiptCharge", JSON.stringify(receiptData.data.charge))
@@ -114,9 +115,15 @@ class CheckoutForm extends Component {
                 //     this.props.history.push("/receipt/" + this.state.productId);
                 //   }
                 // })
-                .catch(err => console.log(err));
+                .catch(err => {
+                  this.setState({ processing: false });
+                  console.log(err)
+                });
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+              this.setState({ processing: false });
+              console.log(err)
+            });
         });
     } else {
       console.log("Stripe.js hasn't loaded yet.");

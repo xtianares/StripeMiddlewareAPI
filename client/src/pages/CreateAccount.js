@@ -95,12 +95,16 @@ class CreateAccount extends Component {
       }
     })
       .then(accountData => {
+        this.setState({ processing: false });
         console.log(accountData.data);
         if (accountData.data.status === "success") {
           this.props.history.push("/billing-information/" + this.state.productId);
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.setState({ processing: false });
+        console.log(err)
+      });
   }
 
   render() {

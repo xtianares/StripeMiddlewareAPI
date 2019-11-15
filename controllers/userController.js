@@ -111,7 +111,7 @@ module.exports = {
           const secureFlag = process.env.NODE_ENV !== "development" ? true : false; // set false if in Development environment and true in Production environment
           res.header('x-auth-header', token).cookie('userToken', token, { expires: new Date(Date.now() + 43200000), httpOnly: true, secure: secureFlag }).json({
             status: "success",
-            message: "User Found!!!", 
+            message: "User Found!!!",
             data: {
               user: userInfo,
               token: token
@@ -137,7 +137,7 @@ module.exports = {
       .findById(req.decoded.id)
       // .populate("orders", "_id items total createdAt")
       // .populate({
-      //   path: "orders", 
+      //   path: "orders",
       //   select: "_id total createdAt",
       //   populate: {
       //     path: "items.product",
