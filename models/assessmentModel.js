@@ -7,8 +7,8 @@ const AssessmentSchema = new Schema ({
   //   ref: "Product"
   // },
   name: {
-    type: Schema.Types.ObjectId,
-    ref: "Company",
+    type: String,
+    trim: true, 
     required: true,
     unique: true
   },
