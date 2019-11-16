@@ -17,18 +17,21 @@ class CreateAccount extends Component {
     productId: this.props.match.params.productId,
     planId: "",
     productData: {},
+    productName: "",
+    productDescription: "",
     plansData: [],
     stripe: null
   };
 
   componentDidMount() {
     // console.log("it mounted");
-    // const { productId } = this.props.match.params
     API.getProductByID(this.state.productId)
       .then(response => {
         // console.log(response.data);
         this.setState({
           productData: response.data.productData,
+          productName: response.data.productData.name,
+          productDescription: response.data.productData.metadata.description,
           plansData: response.data.plansData.data
         })
       })
@@ -55,8 +58,8 @@ class CreateAccount extends Component {
   render() {
     // console.log(this.state.productData);
     // console.log(this.state.plansData);
-    const productName = this.state.productData.name;
-    const productPlans = this.state.plansData.map((plan) => {
+    const { productName, productDescription, plansData } = this.state;
+    const productPlans = plansData.map((plan) => {
       const amount = plan.amount / 100,
             seperator = plan.interval_count > 1 ? "every " + plan.interval_count : "/",
             interval = plan.interval_count > 1 ? plan.interval + "s" : plan.interval,
@@ -77,6 +80,7 @@ class CreateAccount extends Component {
           <Row className="justify-content-center">
             <Col lg="8" md="12" sm="12">
               <h3>Select a payment plan for "{productName}"</h3>
+              <p>{productDescription}</p>
               {productPlans}
 
               <h3>Billing Information</h3>
