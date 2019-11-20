@@ -7,17 +7,17 @@ const OrderSchema = new Schema ({
     ref: "Company",
     required: true
   },
-  items: [{
-    _id: false,
-    product: {
-      type: Schema.Types.ObjectId,
-      ref: "Product",
-      required: true
-    },
-    price: { type: Number, trim: true, required: true },
-    quantity: { type: Number, default: 1 }
-  }],
-  discount: { type: Number, trim: true },
+  // items: [{
+  //   _id: false,
+  //   product: {
+  //     type: Schema.Types.ObjectId,
+  //     ref: "Product",
+  //     required: true
+  //   },
+  //   price: { type: Number, trim: true, required: true },
+  //   quantity: { type: Number, default: 1 }
+  // }],
+  // discount: { type: Number, trim: true },
   total: { type: Number, trim: true, required: true },
   results: [{
     type: Schema.Types.ObjectId,
