@@ -8,7 +8,13 @@ const AssessmentSchema = new Schema ({
   // },
   name: {
     type: String,
-    trim: true, 
+    trim: true,
+    required: true,
+    unique: true
+  },
+  sku: {
+    type: String,
+    trim: true,
     required: true,
     unique: true
   },

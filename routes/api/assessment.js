@@ -13,4 +13,9 @@ router.route("/:id")
   .put(isAuthenticated, isAuthorized, assessmentController.update)
   .delete(isAuthenticated, isAuthorized, assessmentController.delete);
 
+router.route("/sku/:sku")
+  .get(isAuthenticated, assessmentController.findBySku)
+  .put(isAuthenticated, isAuthorized, assessmentController.updateBySku)
+  .delete(isAuthenticated, isAuthorized, assessmentController.deleteBySku);
+
 module.exports = router;

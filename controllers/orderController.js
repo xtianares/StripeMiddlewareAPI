@@ -16,6 +16,7 @@ module.exports = {
       })
       .then(userInfo => {
         // console.log(userInfo.company.id)
+        // if user info doesn't have stripe customer info
         return stripe.customers.create({
             name: userInfo.company.name,
             email: userInfo.email,
