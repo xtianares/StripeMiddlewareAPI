@@ -53,10 +53,10 @@ Orders can only be created if a user is authenticate. The client only needs to s
 
 This endpoint returns the invoice and receipt information of an order from stripe.
 
-<!-- #### Get Assessment by ID
+#### Get Assessment by ID
 `/api/assessment/{assessment_id}`
 
-This endpoint will return an array of assessment questions answerable by yes or no. This will be used to show the questions to the customer. -->
+This endpoint will return an array of assessment questions answerable by yes or no. This will be used to show the questions to the customer.
 
 #### Get Assessment by SKU
 `/api/assessment/{sku}`
