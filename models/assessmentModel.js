@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const AssessmentSchema = new Schema ({
-  // product: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "Product"
-  // },
   name: {
     type: String,
     trim: true,
@@ -18,12 +14,22 @@ const AssessmentSchema = new Schema ({
     required: true,
     unique: true
   },
-  questions: [{ 
+  questionIds: [{ 
     type: String, 
     trim: true, 
     required: true 
   }],
 }, { timestamps: true });
+
+AssessmentSchema.virtual('questions', {
+  ref: 'Question',
+  localField: 'questionIds',
+  foreignField: 'questionId',
+});
+
+AssessmentSchema.set('toObject', { virtuals: true });
+AssessmentSchema.set('toJSON', { virtuals: true });
+
 
 const Assessment = mongoose.model("Assessment", AssessmentSchema);
 

@@ -2,56 +2,54 @@ const db = require("../models");
 
 module.exports = {
   create: (req, res) => {
-    db.Assessment
+    db.Question
       .create(req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   findAll: (req, res) => {
-    db.Assessment
+    db.Question
       .find(req.query)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   findById: (req, res) => {
-    db.Assessment
+    db.Question
       .findById(req.params.id)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  findBySku: (req, res) => {
-    db.Assessment
-      .findOne({ sku: req.params.sku })
-      // .populate("theQuestions")
-      .populate("questions", "questionId category question")
+  findByQuestionId: (req, res) => {
+    db.Question
+      .findOne({ questionId: req.params.questionId })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   // need to gate update properly, not all fields can be update
   update: (req, res) => {
-    db.Assessment
+    db.Question
       .findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  updateBySku: (req, res) => {
-    db.Assessment
-      .findOneAndUpdate({ sku: req.params.sku }, req.body, { new: true })
+  updateByQuestionId: (req, res) => {
+    db.Question
+      .findOneAndUpdate({ questionId: req.params.questionId }, req.body, { new: true })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   delete: (req, res) => {
-    db.Assessment
+    db.Question
       // .deleteOne({ _id: req.params.id })
       .findById(req.params.id)
       .then(dbModel => dbModel.deleteOne())
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  deleteBySku: (req, res) => {
-    db.Assessment
+  deleteByQuestionId: (req, res) => {
+    db.Question
       // .deleteOne({ _id: req.params.id })
-      .findOne({ sku: req.params.sku })
+      .findOne({ questionId: req.params.questionId })
       .then(dbModel => dbModel.deleteOne())
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
