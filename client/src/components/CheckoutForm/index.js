@@ -101,7 +101,7 @@ class CheckoutForm extends Component {
               console.log(response.data);
               // console.log(response.data.data.latest_invoice.charge);
               this.setState({ processing: false });
-              // localStorage.setItem("receiptInvoice", JSON.stringify(receiptData.data.invoice))
+              localStorage.setItem("receiptInvoice", JSON.stringify(response.data.data.latest_invoice))
               localStorage.setItem("receiptCharge", JSON.stringify(response.data.data.latest_invoice.charge))
               if (response.data.status === "success") {
                 this.props.history.push("/receipt/" + this.state.productId);
