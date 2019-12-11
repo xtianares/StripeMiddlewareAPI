@@ -8,19 +8,26 @@ const resultSchema = new Schema ({
     required: true
   },
   results: [{
-    type: Boolean,
-    trim: true,
-    required: true
+    questionId: {
+      type: String,
+      trim: true,
+      required: true
+    },
+    answer: {
+      type: Boolean,
+      trim: true,
+      required: true
+    }
   }],
   company: {
     type: Schema.Types.ObjectId,
     ref: "Company",
     required: true
   },
-  // order: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "Order"
-  // },
+  stripe: {
+    productId: { type: String, trim: true },
+    subscriptionId: { type: String, trim: true }
+  },
   assessment: {
     type: Schema.Types.ObjectId,
     ref: "Assessment",

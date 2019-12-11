@@ -149,11 +149,11 @@ module.exports = {
         // select: "_id total createdAt",
         populate: {
           path: "orders",
-          select: "_id total items paid createdAt",
-          populate: {
-            path: "items.product",
-            select: "_id name description price thumbnail",
-          }
+          select: "_id assessments stripe createdAt",
+          // populate: {
+          //   path: "assessments",
+          //   select: "_id sku name",
+          // }
         }
       })
       // .populate("assessments")

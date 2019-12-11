@@ -6,17 +6,19 @@ const stripe = require("stripe")(stripeSK);
 module.exports = {
   create: (req, res) => {
     const { planId, sourceData } = req.body;
+    const customerDecodedId = req.decoded.id;
+    let userCompanyId = "";
     // const stripeData = {};
     // create stripe customer
     // collect payment info
     // create subscription in stripe for the customer
-    db.User.findById(req.decoded.id)
+    db.User.findById(customerDecodedId)
       .populate({
         path: "company"
       })
       .then(userInfo => {
-        // console.log(userInfo);
-        // if user info doesn't have stripe customer info
+        userCompanyId = userInfo.company._id;
+        // console.log(userInfo); 
         if (userInfo.company && userInfo.company.stripe && userInfo.company.stripe.customerId) {
           return userInfo
         }
@@ -55,7 +57,8 @@ module.exports = {
         else {
           stripeCustomerId = company.stripe.customerId;
         }
-        return stripe.subscriptions.create({
+
+        const subscription = stripe.subscriptions.create({
           customer: stripeCustomerId, // customer ID from the customer
           items: [{
             plan: planId // need to grab this from the request
@@ -63,20 +66,41 @@ module.exports = {
           metadata: {
             companyId: company.id,
           },
-          expand: ['latest_invoice', 'latest_invoice.charge'],
+          expand: ['latest_invoice', 'latest_invoice.charge', 'plan.product'],
         })
+        const order = subscription.then((subscription) => {
+          // console.log(subscription)
+          console.log(userCompanyId)
+          return db.Order.create({
+            company: userCompanyId, // taken from from logged in user above
+            assessments: subscription.plan.product.metadata.assessments.replace(" ", "").split(","),
+            stripe: {
+              invoice: subscription.latest_invoice.id,
+              productId: subscription.plan.product.id,
+              subscriptionId: subscription.id,
+            },
+          })
+        });
+        return Promise.all([subscription, order]).then(([subscriptionResult, orderResult]) => {
+          return [subscriptionResult, orderResult]
+        });
+
+        // return stripe.subscriptions.create({
+        //   customer: stripeCustomerId, // customer ID from the customer
+        //   items: [{
+        //     plan: planId // need to grab this from the request
+        //   }],
+        //   metadata: {
+        //     companyId: company.id,
+        //   },
+        //   expand: ['latest_invoice', 'latest_invoice.charge', 'plan.product'],
+        // })
       })
-      // .then(subscription => {
-      //   // console.log(customer);
-      //   return db.Company.findByIdAndUpdate(stripeData.metadata.companyId, {
-      //     stripe: { customerId: stripeData.customerId }
-      //   }, { new: true })
-      // })
       .then(subscription => {
         res.json({
           status: "success",
           message: "Subscription created successfully!!!",
-          data: subscription
+          data: subscription[0]
         })
       })
       .catch(err => {

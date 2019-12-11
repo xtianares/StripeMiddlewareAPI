@@ -98,7 +98,7 @@ class CheckoutForm extends Component {
           }
           API.createOrder(orderData)
             .then(response => {
-              console.log(response.data);
+              // console.log(response.data);
               // console.log(response.data.data.latest_invoice.charge);
               this.setState({ processing: false });
               localStorage.setItem("receiptInvoice", JSON.stringify(response.data.data.latest_invoice))

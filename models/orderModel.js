@@ -7,37 +7,29 @@ const OrderSchema = new Schema ({
     ref: "Company",
     required: true
   },
-  // items: [{
-  //   _id: false,
-  //   product: {
-  //     type: Schema.Types.ObjectId,
-  //     ref: "Product",
-  //     required: true
-  //   },
-  //   price: { type: Number, trim: true, required: true },
-  //   quantity: { type: Number, default: 1 }
-  // }],
-  // discount: { type: Number, trim: true },
-  total: { type: Number, trim: true, required: true },
+  assessments: [{
+    type: String,
+    // required: true
+  }],
   results: [{
     type: Schema.Types.ObjectId,
     ref: "Result"
   }],
   stripe: {
-    orderId: { type: String, trim: true },
+    invoice: { type: String, trim: true },
+    productId: { type: String, trim: true },
     subscriptionId: { type: String, trim: true },
   },
-  // paid: { type: Boolean, default: false }
 }, { timestamps: true });
 
-// OrderSchema.pre('save', function (next) {
-//   let orderTotal = 0;
-//   this.products.forEach(product => {
-//     orderTotal = orderTotal + product.price * product.quantity;
-//   });
-//   this.total = Number(Number(orderTotal).toFixed(2));
-//   next();
+// OrderSchema.virtual('assessmentData', {
+//   ref: 'Assessments',
+//   localField: 'assessments',
+//   foreignField: 'sku',
 // });
+
+// OrderSchema.set('toObject', { virtuals: true });
+// OrderSchema.set('toJSON', { virtuals: true });
 
 const Order = mongoose.model("Order", OrderSchema);
 
