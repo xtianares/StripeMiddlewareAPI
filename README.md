@@ -1,4 +1,4 @@
-# Stripe Middleware App
+# Stripe Middleware API
 
 This repo contains a sample frontend app (client folder) and the backend middleware app for the Stripe API that allows the frontend app to communicate with Stripe's API. The frontend app uses both it's own DB (MongoDB) and the Stripe's API to display avaliable products from Stripe's product list and process orders using the account details from the DB.
 
